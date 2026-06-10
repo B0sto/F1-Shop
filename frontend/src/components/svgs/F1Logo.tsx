@@ -1,7 +1,11 @@
-const F1Logo = () => {
+type F1LogoProps = {
+    className?: string;
+}
+
+const F1Logo = ({ className }: F1LogoProps) => {
     return (
-        <div>
-            <img src="/f1Logo.svg" alt="F1 Logo" className="size-14 md:size-full"/>
+        <div className="w-full h-full">
+            <img src="/f1Logo.svg" alt="F1 Logo" className={`${className}`}/>
         </div>
     )
 }
