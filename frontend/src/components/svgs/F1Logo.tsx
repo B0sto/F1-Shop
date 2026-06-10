@@ -1,7 +1,7 @@
 const F1Logo = () => {
     return (
         <div>
-            <img src="/f1Logo.svg" alt="F1 Logo" />
+            <img src="/f1Logo.svg" alt="F1 Logo" className="size-14 md:size-full"/>
         </div>
     )
 }

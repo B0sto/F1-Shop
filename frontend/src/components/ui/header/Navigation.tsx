@@ -1,19 +1,8 @@
-const BouncyText = ({ text }: { text: any }) => {
-    return text.split("").map((letter: any, index: number) => (
-        <span
-            key={index}
-            className="letter text-[16px]"
-            style={{ animationDelay: `${index * 70}ms` }}
-        >
-            {letter === " " ? "\u00A0" : letter}
-        </span>
-    ));
-};
+import type { NavigationItemsType } from "../../../types/NavigationItemType";
+import NavItem from "./NavItem";
+import BurgerMenu from "./BurgerMenu";
 
-type NavigationItemsType = {
-    pageName: string;
-    imagePath: string;
-}
+
 
 const navigationItems: NavigationItemsType[] = [
     {
@@ -30,27 +19,36 @@ const navigationItems: NavigationItemsType[] = [
         pageName: "Cart",
         imagePath: "/cartWheel.svg"
     },
+
+    {
+        pageName: "Profile",
+        imagePath: "/userProfileWheel.svg"
+    }
 ]
+
+const mainItems = navigationItems.filter(
+    (item) => item.pageName !== "Profile"
+);
+
+const profileItem = navigationItems.find(
+    (item) => item.pageName === "Profile"
+);
 
 const Navigation = () => {
     return (
-        <div className="flex items-center gap-x-5">
-            {navigationItems.map((navItem: NavigationItemsType) => (
-            <div className="group relative flex flex-col items-center justify-center cursor-pointer">
-                <span className="absolute -top-2.5 text-[#F90301] font-irish">
-                    <BouncyText text={navItem.pageName} />
-                </span>
-
-                <img
-                    src={navItem.imagePath}
-                    alt={`${navItem.pageName} Wheel`}
-                    className="size-11 mt-2 transition-transform duration-500 group-hover:rotate-45"
-                />
+        <>
+            <div className="flex flex-1 items-center justify-center gap-x-4 sm:gap-x-8 lg:gap-x-14">
+                <div className="hidden md:flex items-center gap-x-4 lg:gap-x-10">
+                    {mainItems.map((navItem) => (
+                        <NavItem key={navItem.pageName} navItem={navItem} />
+                    ))}
+                </div>
             </div>
-            ))}
-
-        </div>
-    )
-}
+            
+            <BurgerMenu navigationItems={navigationItems}/>
+            {profileItem && <NavItem navItem={profileItem} className="hidden md:block"/>}
+        </>
+    );
+};
 
 export default Navigation
