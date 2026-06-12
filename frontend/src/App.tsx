@@ -3,7 +3,7 @@ import HomeScreen from "./pages/HomeScreen"
 function App() {
 
   return (
-    <div className="max-w-360 mx-auto min-h-screen">
+    <div className="mx-auto min-h-screen w-full max-w-480 overflow-x-hidden">
       <HomeScreen />
 
     </div>

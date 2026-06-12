@@ -4,9 +4,7 @@ type F1LogoProps = {
 
 const F1Logo = ({ className }: F1LogoProps) => {
     return (
-        <div className="w-full h-full">
-            <img src="/f1Logo.svg" alt="F1 Logo" className={`${className}`}/>
-        </div>
+        <img src="/f1Logo.svg" alt="F1 Logo" className={className} />
     )
 }
 
