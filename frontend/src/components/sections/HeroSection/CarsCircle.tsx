@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import F1Logo from "../../svgs/F1Logo"
+import F1Logo from "../../icons/F1Logo"
 
 export type TeamInfo = {
     title: string
