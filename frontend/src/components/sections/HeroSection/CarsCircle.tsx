@@ -88,8 +88,8 @@ const CarsCircle = ({ onTeamSelect }: CarsCircleProps) => {
 
     return (
         <div className="relative aspect-square w-[min(76vw,30rem)] max-w-full flex items-center justify-center sm:w-[min(88vw,36.25rem)]">
-            <div className="size-[86%] bg-[#F90301] rounded-full flex items-center justify-center">
-                <div className="size-[80%] bg-white rounded-full flex items-center justify-center">
+            <div className="size-[80%] bg-[#F90301] rounded-full flex items-center justify-center">
+                <div className="size-[77%] bg-white rounded-full flex items-center justify-center">
                     <button
                         type="button"
                         className="size-[78%] flex items-center justify-center focus:outline-none"

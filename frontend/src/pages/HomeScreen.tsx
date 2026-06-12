@@ -1,11 +1,13 @@
-import HeaderComponent from "../components/ui/header/HeaderComponent"
-import HeroSection from "../components/ui/HeroSection/HeroSection"
+import CollectionsSection from "../components/sections/CollectionsSection/CollectionsSection"
+import HeaderComponent from "../components/sections/Header/HeaderComponent"
+import HeroSection from "../components/sections/HeroSection/HeroSection"
 
 const HomeScreen = () => {
   return (
     <>
         <HeaderComponent />
         <HeroSection />
+        <CollectionsSection />
     </>
   )
 }
