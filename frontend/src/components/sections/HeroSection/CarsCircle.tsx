@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import F1Logo from "../../svgs/F1Logo"
+import F1Logo from "../../icons/F1Logo"
 
 export type TeamInfo = {
     title: string
@@ -87,12 +87,13 @@ const CarsCircle = ({ onTeamSelect }: CarsCircleProps) => {
     }
 
     return (
-        <div className="relative size-145 flex items-center justify-center">
-            <div className="size-125 bg-[#F90301] rounded-full flex items-center justify-center">
-                <div className="size-100 bg-white rounded-full flex items-center justify-center">
+        <div className="relative aspect-square w-[min(76vw,30rem)] max-w-full flex items-center justify-center sm:w-[min(88vw,36.25rem)]">
+            <div className="size-[80%] bg-[#F90301] rounded-full flex items-center justify-center">
+                <div className="size-[77%] bg-white rounded-full flex items-center justify-center">
                     <button
                         type="button"
-                        className="size-80 flex items-center justify-center focus:outline-none"
+                        className="size-[78%] flex items-center justify-center focus:outline-none"
+                        aria-label="Reset selected team"
                         onClick={handleLogoClick}
                     >
                         <F1Logo className="size-full object-contain" />
@@ -121,14 +122,14 @@ const CarsCircle = ({ onTeamSelect }: CarsCircleProps) => {
                             }}
                         >
                             <div
-                                className={`transition-transform duration-300 ease-out hover:scale-145 ${
-                                    selectedCarIndex === index ? "scale-150" : "scale-100"
+                                className={`transition-transform duration-300 ease-out hover:scale-125 sm:hover:scale-145 ${
+                                    selectedCarIndex === index ? "scale-135 sm:scale-150" : "scale-100"
                                 }`}
                             >
                                 <img
                                     src={car.src}
                                     alt={car.alt}
-                                    className="h-44 max-w-none object-contain"
+                                    className="h-24 max-w-none object-contain max-[380px]:h-20 sm:h-24 md:h-32 xl:h-38"
                                 />
                             </div>
                         </button>

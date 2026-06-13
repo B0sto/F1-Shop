@@ -37,8 +37,8 @@ const profileItem = navigationItems.find(
 const Navigation = () => {
     return (
         <>
-            <div className="flex flex-1 items-center justify-center gap-x-4 sm:gap-x-8 lg:gap-x-14">
-                <div className="hidden md:flex items-center gap-x-4 lg:gap-x-10">
+            <div className="hidden md:flex flex-1 items-center justify-center">
+                <div className="flex items-center gap-x-5 lg:gap-x-10 xl:gap-x-14">
                     {mainItems.map((navItem) => (
                         <NavItem key={navItem.pageName} navItem={navItem} />
                     ))}

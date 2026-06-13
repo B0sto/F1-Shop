@@ -29,19 +29,19 @@ const F1StartLights = ({ className }: { className?: string }) => {
     }, []);
 
     return (
-        <div className={`flex items-center gap-x-3 ${className}`}>
+        <div className={`flex items-center gap-x-2 sm:gap-x-3 ${className}`}>
             {[0, 1, 2, 3, 4].map((_, index) => {
                 const isActive = index < activeCount;
 
                 return (
                     <div
                         key={index}
-                        className="w-6.75 h-19.25 bg-black flex flex-col items-center justify-center gap-y-0.75"
+                        className="w-5 h-14 sm:w-6.75 sm:h-19.25 bg-black flex flex-col items-center justify-center gap-y-0.75"
                     >
                         {[0, 1].map((light) => (
                             <div
                                 key={light}
-                                className={`size-5.5 rounded-full transition-all duration-200 ${isActive
+                                className={`size-4 sm:size-5.5 rounded-full transition-all duration-200 ${isActive
                                         ? "bg-red-600 shadow-[0_0_15px_rgba(255,0,0,0.8)]"
                                         : "bg-[#8F8A8A]"
                                     }`}
