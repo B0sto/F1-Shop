@@ -7,7 +7,7 @@ const HeroSection = () => {
     const [selectedTeam, setSelectedTeam] = useState<TeamInfo | null>(null)
 
     return (
-        <section className="h-screen mt-8 sm:mt-12 xl:mt-25 px-4 sm:px-8 lg:px-12 xl:px-16 2xl:px-36 text-white">
+        <section className="min-h-screen mt-8 sm:mt-12 xl:mt-25 px-4 sm:px-8 lg:px-12 xl:px-16 2xl:px-36 pb-12 sm:pb-16 text-white">
             <div className="flex flex-col items-center justify-between gap-10 xl:flex-row xl:items-start xl:gap-16">
                 <div className="w-full max-w-136 text-center xl:max-w-md 2xl:max-w-136 xl:text-left">
                     <F1StartLights className="mb-6 justify-center xl:justify-start" />
