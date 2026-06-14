@@ -7,7 +7,9 @@ import teamRoutes from "./routes/teamRoutes.js";
 const app = express();
 await connectToDB();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.CLIENT_URL
+}));
 app.use(express.json());
 
 app.use("/api/teams", teamRoutes);
