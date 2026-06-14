@@ -1,6 +1,8 @@
 import { useState } from "react"
 
 import F1Logo from "../../icons/F1Logo"
+import { useQuery } from "@tanstack/react-query"
+import { getTeams } from "@/services/providers/api/teamApi"
 
 export type TeamInfo = {
     title: string
@@ -8,57 +10,10 @@ export type TeamInfo = {
     lineup: string[]
 }
 
-type Car = {
-    src: string
-    alt: string
-    teamInfo?: TeamInfo
-}
-
 type CarsCircleProps = {
     onTeamSelect: (teamInfo: TeamInfo | null) => void
 }
 
-const cars = [
-    {
-        src: "/ferrari.png",
-        alt: "Ferrari F1 car",
-        teamInfo: {
-            title: "Scuderia Ferrari",
-            description:
-                "The most iconic team in Formula 1 history, combining passion, legacy, and a constant fight for championships.",
-            lineup: ["Charles Leclerc", "Lewis Hamilton"],
-        },
-    },
-    {
-        src: "/redBull.png",
-        alt: "Red Bull F1 car",
-        teamInfo: {
-            title: "Red Bull Racing",
-            description:
-                "A dominant force in modern Formula 1, known for elite aerodynamics and consistent race-winning performance.",
-            lineup: ["Max Verstappen", "Isack Hadjar"],
-        },
-    },
-    { src: "/williams.png", alt: "Williams F1 car" },
-    { src: "/haas.png", alt: "Haas F1 car" },
-    { src: "/racingBulls.png", alt: "Racing Bulls F1 car" },
-    { src: "/astonMartin.png", alt: "Aston Martin F1 car" },
-    { src: "/mclaren.png", alt: "McLaren F1 car" },
-    { src: "/audi.png", alt: "Audi F1 car" },
-    { src: "/alpin.png", alt: "Alpine F1 car" },
-    {
-        src: "/mercedes.png",
-        alt: "Mercedes F1 car",
-        teamInfo: {
-            title: "Mercedes AMG Petronas F1 Team",
-            description:
-                "A technological powerhouse aiming to return to its championship-winning dominance.",
-            lineup: ["George Russell", "Kimi Antonelli"],
-        },
-    },
-] satisfies Car[]
-
-const carStep = 360 / cars.length
 const targetCarAngle = 180
 
 const getShortestRotation = (from: number, to: number) => {
@@ -71,12 +26,25 @@ const CarsCircle = ({ onTeamSelect }: CarsCircleProps) => {
     const [ringRotation, setRingRotation] = useState(0)
     const [selectedCarIndex, setSelectedCarIndex] = useState<number | null>(null)
 
+    const { data: response } = useQuery({
+        queryKey: ["Teams"],
+        queryFn: getTeams,
+    })
+
+    const cars = response?.data ?? [];
+    const carStep = cars.length > 0 ? 360 / cars.length : 0
+
     const handleCarClick = (index: number) => {
         const carAngle = index * carStep - 90
         const nextRotation = targetCarAngle - carAngle
+        const selectedCar = cars[index]
 
         setSelectedCarIndex(index)
-        onTeamSelect(cars[index].teamInfo ?? null)
+        onTeamSelect({
+            title: selectedCar.name,
+            description: selectedCar.description,
+            lineup: selectedCar.drivers,
+        })
         setRingRotation((currentRotation) => getShortestRotation(currentRotation, nextRotation))
     }
 
@@ -111,7 +79,7 @@ const CarsCircle = ({ onTeamSelect }: CarsCircleProps) => {
 
                     return (
                         <button
-                            key={car.src}
+                            key={car._id}
                             type="button"
                             className="pointer-events-auto absolute origin-center focus:outline-none"
                             onClick={() => handleCarClick(index)}
@@ -122,13 +90,12 @@ const CarsCircle = ({ onTeamSelect }: CarsCircleProps) => {
                             }}
                         >
                             <div
-                                className={`transition-transform duration-300 ease-out hover:scale-125 sm:hover:scale-145 ${
-                                    selectedCarIndex === index ? "scale-135 sm:scale-150" : "scale-100"
-                                }`}
+                                className={`transition-transform duration-300 ease-out hover:scale-125 sm:hover:scale-145 ${selectedCarIndex === index ? "scale-135 sm:scale-150" : "scale-100"
+                                    }`}
                             >
                                 <img
-                                    src={car.src}
-                                    alt={car.alt}
+                                    src={car.carImage}
+                                    alt={`${car.name} F1 car`}
                                     className="h-24 max-w-none object-contain max-[380px]:h-20 sm:h-24 md:h-32 xl:h-38"
                                 />
                             </div>
