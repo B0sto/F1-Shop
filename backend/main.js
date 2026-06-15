@@ -1,8 +1,9 @@
 import express from "express";
 import "dotenv/config";
 import cors from "cors";
-import { connectToDB } from "./configs/db.js";
-import teamRoutes from "./routes/teamRoutes.js";
+import { connectToDB } from "./src/configs/db.js";
+import teamRoutes from "./src/routes/teamRoutes.js";
+import collectionRoutes from "./src/routes/collectionRoutes.js";
 
 const app = express();
 await connectToDB();
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/teams", teamRoutes);
+app.use("/api/collections", collectionRoutes);
 
 
 app.get("/", (req, res) => {
