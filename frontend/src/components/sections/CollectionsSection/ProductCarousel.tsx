@@ -1,27 +1,57 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { ProductType } from '../../../types/ProductType'
 import ProductCard from './ProductCard'
+import { useRef } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import type { Swiper as SwiperType } from 'swiper'
+import "swiper/css";
 
 type ProductCarouselProps = {
   products: ProductType[]
+  team: string
 }
 
-const ProductCarousel = ({ products }: ProductCarouselProps) => {
+const ProductCarousel = ({ products, team }: ProductCarouselProps) => {
+  const swiperRef = useRef<SwiperType | null>(null);
+  const canSlide = products.length > 3;
+
   return (
-    <div className="flex">
-      <div className="flex h-50 items-center">
-        <ChevronLeft size={30}/>
-      </div>
+    <div className="flex items-start gap-x-4">
+      <button
+        type="button"
+        className="mt-18 flex items-center disabled:opacity-40"
+        aria-label="Previous products"
+        disabled={!canSlide}
+        onClick={() => swiperRef.current?.slidePrev()}
+      >
+        <ChevronLeft size={30} />
+      </button>
 
-      <div className="flex gap-x-5">
+      <Swiper
+        className="w-180"
+        spaceBetween={20}
+        slidesPerView={4}
+        loop={canSlide}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+      >
         {products.map((product) => (
-          <ProductCard key={product.name} product={product} />
+          <SwiperSlide key={product.imgSrc}>
+            <ProductCard product={product} team={team} />
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
 
-      <div className="flex h-50 items-center">
-        <ChevronRight size={30}/>
-      </div>
+      <button
+        type="button"
+        className="mt-18 flex items-center disabled:opacity-40"
+        aria-label="Next products"
+        disabled={!canSlide}
+        onClick={() => swiperRef.current?.slideNext()}
+      >
+        <ChevronRight size={30} />
+      </button>
     </div>
   )
 }

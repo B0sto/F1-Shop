@@ -1,11 +1,19 @@
 
+import type { TeamVariant } from "@/utils/teamStyles"
+
 type ButtonProps = {
     text?: string
+    variant?: TeamVariant
 }
 
-const Button = ({ text = "Add To Cart" }: ButtonProps) => {
+const buttonVariants: Record<TeamVariant, string> = {
+    ferrari: "bg-[#AA1414] hover:bg-[#B54D4D]",
+    mercedes: "bg-[#005871] hover:bg-[#3A7484]",
+}
+
+const Button = ({ text = "Add To Cart", variant = "ferrari" }: ButtonProps) => {
   return (
-    <button className='bg-[#AA1414] px-2 rounded-full text-[14px]'>
+    <button className={`${buttonVariants[variant]} px-2 rounded-full text-[14px] transition-all duration-300 cursor-pointer`}>
         {text}
     </button>
   )

@@ -1,18 +1,22 @@
 import type { ProductType } from "../../../types/ProductType"
 import Button from "../../common/Button"
+import { getTeamVariant } from "@/utils/teamStyles"
 
 type ProductCardProps = {
   product: ProductType
+  team: string
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, team }: ProductCardProps) => {
+  const buttonVariant = getTeamVariant(team);
+
   return (
     <div className="w-40">
       <div>
         <img
           src={product.imgSrc}
           alt={product.name}
-          className=" bg-white rounded-2xl"
+          className=" bg-white rounded-2xl w-full h-full"
         />
       </div>
 
@@ -24,7 +28,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         <div className="flex items-center justify-between">
           <p>Price: ${product.price}</p>
-          <Button />
+          <Button variant={buttonVariant} />
         </div>
       </div>
 
