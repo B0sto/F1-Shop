@@ -8,7 +8,6 @@ export const getTeams = async (): Promise<ApiResponse<Team[]>> => {
         
         return res.data;
     } catch (error) {
-        console.log(error);
         throw new Error("Error while fetching teams", { cause: error });
     }
 }
