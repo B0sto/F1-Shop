@@ -18,7 +18,7 @@ const DriverCollectionShowcase = () => {
       {driverCollections?.map(({ driver, products }) => (
         <div
           key={driver.name}
-          className="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8"
+          className="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8"
         >
           <DriverCard driver={driver} />
           <ProductCarousel products={products} team={driver.team} />
