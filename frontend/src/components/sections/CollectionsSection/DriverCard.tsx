@@ -10,7 +10,7 @@ const DriverCard = ({ driver }: DriverCardProps) => {
     const { teamNameStyles, teamDescStyles } = teamClasses[teamVariant];
 
     return (
-        <div className="flex w-full items-center gap-x-4 md:ml-10 lg:ml-0 lg:w-auto lg:shrink-0">
+        <div className="flex w-full items-center gap-x-4 sm:ml-10 lg:ml-0 lg:w-auto lg:shrink-0">
             <div className="overflow-hidden rounded-xl sm:rounded-2xl">
                 <img src={driver.imgSrc} alt={driver.name} className="h-full w-full" />
             </div>
