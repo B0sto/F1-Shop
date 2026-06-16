@@ -2,7 +2,7 @@ import collectionModel from "../models/collectionModel.js";
 
 export const getCollections = async (req, res) => {
     try {
-        const collections = await collectionModel.find();
+        const collections = await collectionModel.find().sort({ createdAt: 1 });
         res.status(200).json({
             success: true,
             data: collections
