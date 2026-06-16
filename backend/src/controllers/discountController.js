@@ -2,7 +2,7 @@ import discountModel from "../models/discountModel.js";
 
 export const getDiscounts = async (req, res) => {
     try {
-        const discounts = await discountModel.find().sort({ createdAt: 1 });
+        const discounts = await discountModel.find().sort({ createdAt: 1, _id: 1 });
         res.status(200).json({
             success: true,
             data: discounts
