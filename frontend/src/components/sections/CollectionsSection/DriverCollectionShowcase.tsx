@@ -1,58 +1,27 @@
-import type { DriverCollectionType } from '../../../types/DriverCollectionType'
+import { useQuery } from '@tanstack/react-query'
 import DriverCard from './DriverCard'
 import ProductCarousel from './ProductCarousel'
+import { getCollections } from '@/services/providers/api/collectionsApi'
 
 
-const driverCollections: DriverCollectionType[] = [
-  {
-    driver: {
-      imgSrc: "/lewisHamilton.jpg",
-      name: "Lewis Hamilton",
-      desc: "7th world championship",
-      team: "Scuderia Ferrari",
-    },
-    products: [
-      {
-        imgSrc: "/lewisItem1.jpg",
-        name: " Silverstone Crew 2025 Zip Up Hoodie",
-        price: 120,
-      },
-      {
-        imgSrc: "/lewisItem2.jpg",
-        name: "Scuderia Ferrari 2025 Team Lewis Hamilton Cap - White",
-        price: 41,
-      },
-      {
-        imgSrc: "/lewisItem3.jpg",
-        name: "Scuderia Ferrari SF-25 2025 Official Poster",
-        price: 79,
-      },
-      {
-        imgSrc: "/lewisItem4.jpg",
-        name: "Scuderia Ferrari Puma Rain Jacket - Black",
-        price: 95,
-      },
-      {
-        imgSrc: "/lewisItem5.jpg",
-        name: "Scuderia Ferrari Race Premium Jacket - Black",
-        price: 80,
-      },
-      // {
-      //   imgSrc: "/lewisItem6.jpg",
-      //   name: "Scuderia Ferrari 2026 Team Shirt",
-      //   price: 75,
-      // },
-    ],
-  },
-]
 
 const DriverCollectionShowcase = () => {
+  const { data: response } = useQuery({
+    queryKey: ["collections"],
+    queryFn: getCollections,
+  });
+
+  const driverCollections = response?.data;
+
   return (
-    <div className='mt-10'>
-      {driverCollections.map(({ driver, products }) => (
-        <div key={driver.name} className="flex items-center">
+    <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">
+      {driverCollections?.map(({ driver, products }) => (
+        <div
+          key={driver.name}
+          className="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8"
+        >
           <DriverCard driver={driver} />
-          <ProductCarousel products={products} />
+          <ProductCarousel products={products} team={driver.team} />
         </div>
       ))}
     </div>
