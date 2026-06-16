@@ -11,23 +11,23 @@ const ProductCard = ({ product, team }: ProductCardProps) => {
   const buttonVariant = getTeamVariant(team);
 
   return (
-    <div className="w-40">
-      <div>
+    <div className="w-full">
+      <div className="aspect-square overflow-hidden rounded-2xl bg-white">
         <img
           src={product.imgSrc}
           alt={product.name}
-          className=" bg-white rounded-2xl w-full h-full"
+          className="h-full w-full object-contain"
         />
       </div>
 
-      <div>
-        <h5 className="h-18 overflow-hidden">
+      <div className="mt-2">
+        <h5 className="min-h-14 overflow-hidden text-base leading-tight sm:min-h-16 sm:text-lg">
           {product.name}
         </h5>
 
 
-        <div className="flex items-center justify-between">
-          <p>Price: ${product.price}</p>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-base sm:text-lg">Price: ${product.price}</p>
           <Button variant={buttonVariant} />
         </div>
       </div>

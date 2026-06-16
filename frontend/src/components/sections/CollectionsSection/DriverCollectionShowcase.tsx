@@ -14,9 +14,12 @@ const DriverCollectionShowcase = () => {
   const driverCollections = response?.data;
 
   return (
-    <div className='mt-10'>
+    <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">
       {driverCollections?.map(({ driver, products }) => (
-        <div key={driver.name} className="flex items-center justify-between mt-10">
+        <div
+          key={driver.name}
+          className="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8"
+        >
           <DriverCard driver={driver} />
           <ProductCarousel products={products} team={driver.team} />
         </div>
