@@ -23,7 +23,7 @@ const ProductCarousel = ({ products, team }: ProductCarouselProps) => {
     <div className="flex min-w-0 items-start gap-x-2 sm:gap-x-3 lg:flex-1 lg:gap-x-4">
       <button
         type="button"
-        className="mt-18 hidden items-center disabled:cursor-default disabled:opacity-40 sm:flex"
+        className="mt-32 hidden items-center disabled:cursor-default disabled:opacity-40 sm:flex cursor-pointer"
         aria-label="Previous products"
         disabled={isLocked}
         onClick={() => swiperRef.current?.slidePrev()}
@@ -72,7 +72,7 @@ const ProductCarousel = ({ products, team }: ProductCarouselProps) => {
 
       <button
         type="button"
-        className="mt-18 hidden items-center disabled:cursor-default disabled:opacity-40 sm:flex"
+        className="mt-32 hidden items-center disabled:cursor-default disabled:opacity-40 sm:flex cursor-pointer"
         aria-label="Next products"
         disabled={isLocked}
         onClick={() => swiperRef.current?.slideNext()}

@@ -1,6 +1,6 @@
 import type { ProductType } from "../../../types/ProductType"
 import Button from "../../common/Button"
-import { getTeamVariant } from "@/utils/teamStyles"
+import { getTeamVariant, teamClasses } from "@/utils/teamStyles"
 
 type ProductCardProps = {
   product: ProductType
@@ -8,7 +8,8 @@ type ProductCardProps = {
 }
 
 const ProductCard = ({ product, team }: ProductCardProps) => {
-  const buttonVariant = getTeamVariant(team);
+  const teamVariant = getTeamVariant(team);
+  const { buttonStyles } = teamClasses[teamVariant];
 
   return (
     <div className="w-full">
@@ -16,7 +17,7 @@ const ProductCard = ({ product, team }: ProductCardProps) => {
         <img
           src={product.imgSrc}
           alt={product.name}
-          className="h-full w-full object-contain"
+          className="h-full w-full"
         />
       </div>
 
@@ -28,7 +29,7 @@ const ProductCard = ({ product, team }: ProductCardProps) => {
 
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <p className="text-base sm:text-lg">Price: ${product.price}</p>
-          <Button variant={buttonVariant} />
+          <Button className={buttonStyles} />
         </div>
       </div>
 
