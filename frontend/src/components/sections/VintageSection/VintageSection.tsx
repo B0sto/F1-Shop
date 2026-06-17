@@ -7,27 +7,32 @@ const vintageProducts = [
     {
         imgSrc: "/vintageItem1.png",
         name: "Vintage Mercedes Jacket",
-        price: 279,
+        price: 325,
     },
     {
-        imgSrc: "/vintageItem1.png",
+        imgSrc: "/vintageItem2.png",
         name: "Vintage Ferrari Jacket",
-        price: 299,
+        price: 300,
     },
     {
-        imgSrc: "/vintageItem1.png",
+        imgSrc: "/vintageItem3.png",
         name: "Vintage Red Bull Jacket",
-        price: 249,
+        price: 250,
     },
     {
-        imgSrc: "/vintageItem1.png",
+        imgSrc: "/vintageItem4.png",
         name: "Vintage McLaren Jacket",
-        price: 259,
+        price: 275,
     },
     {
-        imgSrc: "/vintageItem1.png",
+        imgSrc: "/vintageItem5.png",
+        name: "Vintage Audi Jacket",
+        price: 230,
+    },
+    {
+        imgSrc: "/vintageItem6.png",
         name: "Vintage Williams Jacket",
-        price: 259,
+        price: 245,
     },
 ];
 
