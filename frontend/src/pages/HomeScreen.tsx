@@ -1,3 +1,4 @@
+import VintageSection from "@/components/sections/VintageSection/VintageSection"
 import CollectionsSection from "../components/sections/CollectionsSection/CollectionsSection"
 import HeaderComponent from "../components/sections/Header/HeaderComponent"
 import HeroSection from "../components/sections/HeroSection/HeroSection"
@@ -8,6 +9,7 @@ const HomeScreen = () => {
     <HeroSection key="hero" />,
     <CollectionsSection key="collections" />,
     <SpecialDiscountsSection key="special-discounts" />,
+    <VintageSection key="vintage f1 collection"/>
   ]
 
   return (
