@@ -1,9 +1,9 @@
-import type { VingateCardType } from "@/types/VingateCardType";
+import type { VintageCardType } from "@/types/VintageCardType";
 
-const VintageCard = ({ imgSrc, name, price }: VingateCardType) => {
+const VintageCard = ({ imgSrc, name, price }: VintageCardType) => {
     return (
-        <div className="flex min-h-[500px] w-[calc(100vw-32px)] max-w-[380px] flex-col items-center justify-center bg-[#FFFAFA]/40 px-5 font-akshar md:min-h-140 md:w-95">
-            <div className="aspect-square w-[240px] md:w-75">
+        <div className="flex min-h-125 w-[calc(100vw-32px)] max-w-95 flex-col items-center justify-center bg-[#FFFAFA]/40 px-5 font-akshar md:min-h-140 md:w-95">
+            <div className="aspect-square w-60 md:w-75">
                 <img
                     src={imgSrc}
                     alt={name}

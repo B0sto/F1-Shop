@@ -2,52 +2,30 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, type CSSProperties } from "react";
 import SectionTitle from "@/components/common/SectionTitle";
 import VintageCard from "./VintageCard";
-
-const vintageProducts = [
-    {
-        imgSrc: "/vintageItem1.png",
-        name: "Vintage Mercedes Jacket",
-        price: 325,
-    },
-    {
-        imgSrc: "/vintageItem2.png",
-        name: "Vintage Ferrari Jacket",
-        price: 300,
-    },
-    {
-        imgSrc: "/vintageItem3.png",
-        name: "Vintage Red Bull Jacket",
-        price: 250,
-    },
-    {
-        imgSrc: "/vintageItem4.png",
-        name: "Vintage McLaren Jacket",
-        price: 275,
-    },
-    {
-        imgSrc: "/vintageItem5.png",
-        name: "Vintage Audi Jacket",
-        price: 230,
-    },
-    {
-        imgSrc: "/vintageItem6.png",
-        name: "Vintage Williams Jacket",
-        price: 245,
-    },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getVintages } from "@/services/providers/api/vintagesApi";
+import type { VintageCardType } from "@/types/VintageCardType";
 
 const VintageSection = () => {
     const [active, setActive] = useState(0);
 
+    const { data: response } = useQuery({
+        queryKey: ["vintages"],
+        queryFn: getVintages
+    })
+
+    const vintageProducts: VintageCardType[] = response?.data ?? [];
+    const hasProducts = vintageProducts.length > 0;
+
     const isFirstCard = active === 0;
-    const isLastCard = active === vintageProducts.length - 1;
+    const isLastCard = !hasProducts || active >= vintageProducts.length - 1;
 
     const prev = () => {
         setActive((current) => Math.max(current - 1, 0));
     };
 
     const next = () => {
-        setActive((current) => Math.min(current + 1, vintageProducts.length - 1));
+        setActive((current) => Math.min(current + 1, Math.max(vintageProducts.length - 1, 0)));
     };
 
     const getCardStyle = (index: number): CSSProperties => {
