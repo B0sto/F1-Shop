@@ -5,6 +5,7 @@ import { connectToDB } from "./src/configs/db.js";
 import teamRoutes from "./src/routes/teamRoutes.js";
 import collectionRoutes from "./src/routes/collectionRoutes.js";
 import discountRoutes from "./src/routes/discountRoutes.js"
+import vintageRoutes from "./src/routes/vintageRoutes.js";
 
 const app = express();
 await connectToDB();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/teams", teamRoutes);
 app.use("/api/collections", collectionRoutes);
 app.use("/api/discounts", discountRoutes);
+app.use("/api/vintages", vintageRoutes);
 
 
 app.get("/", (req, res) => {
