@@ -1,5 +1,6 @@
 import VintageSection from "@/components/sections/VintageSection/VintageSection"
 import CollectionsSection from "../components/sections/CollectionsSection/CollectionsSection"
+import Footer from "@/components/sections/Footer/Footer"
 import HeaderComponent from "../components/sections/Header/HeaderComponent"
 import HeroSection from "../components/sections/HeroSection/HeroSection"
 import SpecialDiscountsSection from "@/components/sections/SpecialDiscountsSection/SpecialDiscountsSection"
@@ -9,7 +10,9 @@ const HomeScreen = () => {
     <HeroSection key="hero" />,
     <CollectionsSection key="collections" />,
     <SpecialDiscountsSection key="special-discounts" />,
-    <VintageSection key="vintage f1 collection"/>
+    <VintageSection key="vintage f1 collection"/>,
+    <Footer key="footer"/>
+
   ]
 
   return (
