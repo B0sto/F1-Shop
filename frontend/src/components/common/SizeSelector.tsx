@@ -7,7 +7,7 @@ type SizeSelectorProps = {
 }
 
 const SizeSelector = ({ sizes, selectedSize, onSelectSize }: SizeSelectorProps) => {
-    const [internalSelectedSize, setInternalSelectedSize] = useState<string | number | undefined>(selectedSize);
+    const [internalSelectedSize, setInternalSelectedSize] = useState<string | number>();
     const activeSize = selectedSize ?? internalSelectedSize;
 
     const handleSelectSize = (size: string | number) => {
@@ -19,6 +19,7 @@ const SizeSelector = ({ sizes, selectedSize, onSelectSize }: SizeSelectorProps) 
         <div className="flex items-center gap-0.5">
             {sizes.map((size) => (
                 <button
+                    type="button"
                     key={size}
                     className={`flex h-5 min-w-4 items-center justify-center border border-[#292525] px-1 text-[11px] leading-none cursor-pointer transition-colors duration-300 text-[#110D0D] ${
                         activeSize === size

@@ -18,7 +18,7 @@ const VintageCard = ({ imgSrc, name, price }: VintageCardType) => {
                 </p>
             </div>
 
-            <button className="mt-6 mb-4 cursor-pointer rounded-full bg-[#B2B0B1] px-4 py-1 text-[20px] transition-all duration-300 hover:bg-[#9a9999] md:text-[22px]">
+            <button type="button" className="mt-6 mb-4 cursor-pointer rounded-full bg-[#B2B0B1] px-4 py-1 text-[20px] transition-all duration-300 hover:bg-[#9a9999] md:text-[22px]">
                 Add To Cart
             </button>
         </div>

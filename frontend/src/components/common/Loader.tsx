@@ -60,74 +60,30 @@ const Loader = () => {
     const carSize = 90;
 
     return (
-        <div
-            style={{
-                position: "fixed",
-                inset: 0,
-                zIndex: 9999,
-                background: "#050505",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "1.5rem",
-            }}
-        >
-            <div
-                style={{
-                    position: "relative",
-                    width: "90%",
-                    maxWidth: 520,
-                    height: 90,
-                }}
-            >
-                <div
-                    style={{
-                        position: "absolute",
-                        left: 0,
-                        right: 0,
-                        bottom: 28,
-                        height: 6,
-                        background: "#2a2a2a",
-                        borderRadius: 999,
-                    }}
-                />
+        <div className="fixed inset-0 z-9999 flex flex-col items-center justify-center gap-6 bg-[#050505]">
+            <div className="relative h-22.5 w-[90%] max-w-130">
+                <div className="absolute right-0 bottom-7 left-0 h-1.5 rounded-full bg-[#2a2a2a]" />
 
                 <div
+                    className="absolute bottom-7 left-0 h-1.5 rounded-full bg-[#f90301]"
                     style={{
-                        position: "absolute",
-                        left: 0,
-                        bottom: 28,
-                        height: 6,
                         width: `${progress * 100}%`,
-                        background: "#f90301",
-                        borderRadius: 999,
                     }}
                 />
 
                 <div
+                    className="absolute bottom-1.25 text-[#f90301]"
                     style={{
-                        position: "absolute",
-                        bottom: 5,
                         left: `calc(${progress * 100}% - ${progress * carSize}px)`,
                         width: carSize,
                         height: carSize,
-                        color: "#f90301",
                     }}
                 >
                     <CarIcon/>
                 </div>
             </div>
 
-            <span
-                style={{
-                    fontSize: 12,
-                    letterSpacing: "0.25em",
-                    color: "#ffffff",
-                    textTransform: "uppercase",
-                    fontFamily: "system-ui, sans-serif",
-                }}
-            >
+            <span className="font-sans text-xs tracking-[0.25em] text-white uppercase">
         Loading F1 Shop...
       </span>
         </div>

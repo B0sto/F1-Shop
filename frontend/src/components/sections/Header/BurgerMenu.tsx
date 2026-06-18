@@ -33,8 +33,14 @@ const BurgerMenu = ({ navigationItems }: BurgerMenuProps) => {
             </button>
 
             {toggle && (
-                <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setToggle(false)}>
-                    <div className="absolute right-0 top-0 h-dvh w-[min(82vw,18rem)] bg-black text-red-500 p-4 pr-6 pt-6" onClick={(e) => e.stopPropagation()}>
+                <div className="fixed inset-0 z-40">
+                    <button
+                        type="button"
+                        className="absolute inset-0 bg-black/50"
+                        aria-label="Close navigation menu"
+                        onClick={() => setToggle(false)}
+                    />
+                    <div className="absolute right-0 top-0 h-dvh w-[min(82vw,18rem)] bg-black text-red-500 p-4 pr-6 pt-6">
                         <button
                             type="button"
                             className="ml-auto flex size-10 items-center justify-center"

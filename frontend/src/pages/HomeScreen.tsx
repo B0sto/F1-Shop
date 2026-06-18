@@ -5,16 +5,16 @@ import HeaderComponent from "../components/sections/Header/HeaderComponent"
 import HeroSection from "../components/sections/HeroSection/HeroSection"
 import SpecialDiscountsSection from "@/components/sections/SpecialDiscountsSection/SpecialDiscountsSection"
 
-const HomeScreen = () => {
-  const sections = [
+const sections = [
     <HeroSection key="hero" />,
     <CollectionsSection key="collections" />,
     <SpecialDiscountsSection key="special-discounts" />,
     <VintageSection key="vintage f1 collection"/>,
     <Footer key="footer"/>
 
-  ]
+]
 
+const HomeScreen = () => {
   return (
     <>
       <HeaderComponent />
