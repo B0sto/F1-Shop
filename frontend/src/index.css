@@ -43,3 +43,115 @@ body,
     animation: bounce-letter 0.45s ease-in-out;
 }
 
+.f1-start-light {
+    animation-duration: 5.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    background-color: #8F8A8A;
+}
+
+.f1-start-light-0 {
+    animation-name: f1-start-light-0;
+}
+
+.f1-start-light-1 {
+    animation-name: f1-start-light-1;
+}
+
+.f1-start-light-2 {
+    animation-name: f1-start-light-2;
+}
+
+.f1-start-light-3 {
+    animation-name: f1-start-light-3;
+}
+
+.f1-start-light-4 {
+    animation-name: f1-start-light-4;
+}
+
+@keyframes f1-start-light-0 {
+
+    0%,
+    12.6%,
+    78.2%,
+    100% {
+        background-color: #8F8A8A;
+        box-shadow: none;
+    }
+
+    12.8%,
+    78% {
+        background-color: #dc2626;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    }
+}
+
+@keyframes f1-start-light-1 {
+
+    0%,
+    25.3%,
+    78.2%,
+    100% {
+        background-color: #8F8A8A;
+        box-shadow: none;
+    }
+
+    25.5%,
+    78% {
+        background-color: #dc2626;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    }
+}
+
+@keyframes f1-start-light-2 {
+
+    0%,
+    38%,
+    78.2%,
+    100% {
+        background-color: #8F8A8A;
+        box-shadow: none;
+    }
+
+    38.2%,
+    78% {
+        background-color: #dc2626;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    }
+}
+
+@keyframes f1-start-light-3 {
+
+    0%,
+    50.7%,
+    78.2%,
+    100% {
+        background-color: #8F8A8A;
+        box-shadow: none;
+    }
+
+    50.9%,
+    78% {
+        background-color: #dc2626;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    }
+}
+
+@keyframes f1-start-light-4 {
+
+    0%,
+    63.4%,
+    78.2%,
+    100% {
+        background-color: #8F8A8A;
+        box-shadow: none;
+    }
+
+    63.6%,
+    78% {
+        background-color: #dc2626;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    }
+}
+

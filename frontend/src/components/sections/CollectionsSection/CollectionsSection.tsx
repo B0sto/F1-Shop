@@ -12,7 +12,7 @@ const CollectionsSection = () => {
 
             <div className="relative flex w-full items-center gap-x-3">
                 <Search size={20} className="text-black absolute top-1/2 transform -translate-y-1/2 left-3" />
-                <input type="text" className="h-10 w-full rounded-full bg-white pr-3 pl-11 text-black sm:h-8.75" />
+                <input type="text" className="h-10 w-full rounded-full bg-white pr-3 pl-11 text-black sm:h-8.75" aria-label="Search Collections"/>
 
                 <Funnel className="shrink-0 cursor-pointer" />
             </div>

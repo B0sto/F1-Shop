@@ -31,7 +31,7 @@ const SpecialDiscountCard = ({
                 </div>
             </div>
 
-            <button className="bg-[#282525] transition-all duration-300 cursor-pointer hover:bg-[#4e4a4a] px-5 py-2.5 rounded-full text-[18px] mt-3 mb-2">Buy It Now</button>
+            <button type="button" className="bg-[#282525] transition-all duration-300 cursor-pointer hover:bg-[#4e4a4a] px-5 py-2.5 rounded-full text-[18px] mt-3 mb-2">Buy It Now</button>
         </div>
     )
 }

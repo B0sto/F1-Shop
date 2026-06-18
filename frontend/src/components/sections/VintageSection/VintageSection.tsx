@@ -85,7 +85,7 @@ const VintageSection = () => {
                     <div className="relative flex h-125 w-full max-w-95 items-center justify-center overflow-hidden">
                         {vintageProducts.map((product, index) => (
                             <div
-                                key={index}
+                                key={product.imgSrc}
                                 style={getCardStyle(index)}
                                 className="absolute transition-all duration-700 ease-in-out"
                             >
@@ -99,12 +99,19 @@ const VintageSection = () => {
                     <div className="relative flex h-140 w-105 items-center justify-center">
                         {vintageProducts.map((product, index) => (
                             <div
-                                key={index}
-                                onClick={() => setActive(index)}
+                                key={product.imgSrc}
                                 style={getCardStyle(index)}
-                                className="absolute cursor-pointer transition-all duration-700 ease-in-out"
+                                className="absolute transition-all duration-700 ease-in-out"
                             >
-                                <VintageCard {...product} />
+                                <button
+                                    type="button"
+                                    aria-label={`Show ${product.name}`}
+                                    onClick={() => setActive(index)}
+                                    className="absolute inset-0 z-10 cursor-pointer rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                                />
+                                <div className="pointer-events-none relative z-0">
+                                    <VintageCard {...product} />
+                                </div>
                             </div>
                         ))}
                     </div>
