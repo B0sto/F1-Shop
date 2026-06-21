@@ -6,19 +6,27 @@ import teamRoutes from "./src/routes/teamRoutes.js";
 import collectionRoutes from "./src/routes/collectionRoutes.js";
 import discountRoutes from "./src/routes/discountRoutes.js"
 import vintageRoutes from "./src/routes/vintageRoutes.js";
+import authRoutes from "./src/routes/authRoutes.js"
+import cookieParser from "cookie-parser";
 
 const app = express();
 await connectToDB();
 
 app.use(cors({
-    origin: process.env.CLIENT_URL
+    origin: process.env.CLIENT_URL,
+    credentials: true
 }));
+
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/teams", teamRoutes);
 app.use("/api/collections", collectionRoutes);
 app.use("/api/discounts", discountRoutes);
 app.use("/api/vintages", vintageRoutes);
+
+
+app.use("/api/auth", authRoutes);
 
 
 app.get("/", (req, res) => {
