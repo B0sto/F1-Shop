@@ -1,4 +1,5 @@
-import { registerUser } from "../services/authService.js"
+import { loginUser, registerUser } from "../services/authService.js"
+import User from "../models/userModel.js";
 
 const refreshCookieOptions = {
     httpOnly: true,
@@ -30,12 +31,57 @@ export const register = async (req, res) => {
 
 
 export const login = async (req, res) => {
+    try {
+        const { user, accessToken, refreshToken } = await loginUser(req.body);
 
+        res.cookie("refreshToken", refreshToken, refreshCookieOptions);
+
+        res.status(200).json({
+            success: true,
+            data: {
+                user,
+                accessToken
+            }
+        })
+    } catch (error) {
+        res.status(401).json({
+            success: false,
+            message: error.message
+        })
+    }
 }
 
 
 
 export const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.userId);
 
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            data: {
+                user: {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email,
+                    address: user.address,
+                    avatar: user.avatar,
+                    createdAt: user.createdAt,
+                }
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
 }
 

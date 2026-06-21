@@ -69,3 +69,47 @@ export const registerUser = async (userData) => {
         refreshToken,
     };
 }
+
+
+export const loginUser = async (userData) => {
+    const { email, password } = userData;
+
+    if (!email || !password) {
+        throw new Error("Email and Password are required");
+    }
+
+    const user = await User.findOne({ email }).select("+password");
+
+
+    if (!user) {
+        throw new Error("Invalid Email or Password");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+        throw new Error("Invalid Email or Password");
+    }
+
+    const accessToken = createAccessToken(user._id);
+    const refreshToken = createRefreshToken(user._id);
+
+    await saveRefreshToken(user._id, refreshToken);
+
+
+    return {
+        user: {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            address: user.address,
+            avatar: user.avatar,
+            createdAt: user.createdAt,
+        },
+        accessToken,
+        refreshToken,
+    };
+
+
+
+}
