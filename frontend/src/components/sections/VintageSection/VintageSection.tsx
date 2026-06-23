@@ -1,20 +1,15 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { useState, type CSSProperties } from "react";
 import SectionTitle from "@/components/common/SectionTitle";
 import VintageCard from "./VintageCard";
-import { useQuery } from "@tanstack/react-query";
-import { getVintages } from "@/services/providers/api/vintagesApi";
-import type { VintageCardType } from "@/types/VintageCardType";
+import { vintagesQuery } from "@/services/providers/queries/homeQueries";
 
 const VintageSection = () => {
     const [active, setActive] = useState(0);
+    const { data: response } = useQuery(vintagesQuery);
 
-    const { data: response } = useQuery({
-        queryKey: ["vintages"],
-        queryFn: getVintages
-    })
-
-    const vintageProducts: VintageCardType[] = response?.data ?? [];
+    const vintageProducts = response?.data ?? [];
     const hasProducts = vintageProducts.length > 0;
 
     const isFirstCard = active === 0;

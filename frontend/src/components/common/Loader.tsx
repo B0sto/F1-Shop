@@ -1,37 +1,36 @@
 import {useEffect, useRef, useState} from "react";
+import { useIsFetching } from "@tanstack/react-query";
 import CarIcon from "@/components/common/CarIcon.tsx";
-import {useIsFetching} from "@tanstack/react-query";
 
+const homeQueryKeys = new Set(["teams", "collections", "discounts", "vintages"]);
 
 const Loader = () => {
     const [progress, setProgress] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
-    const isInitialFetching = useIsFetching({
-        predicate: (query) => query.state.status === "pending",
+    const activeHomeFetches = useIsFetching({
+        predicate: (query) => {
+            const queryKey = query.queryKey[0];
+
+            return typeof queryKey === "string" && homeQueryKeys.has(queryKey);
+        },
     });
+    const isFetching = activeHomeFetches > 0;
 
     const pRef = useRef(0);
     const lastRef = useRef<number | null>(null);
     const rafRef = useRef<number | null>(null);
 
     useEffect(() => {
-        if (!isInitialFetching) {
-            setIsVisible(false);
+        if (!isFetching) {
+            pRef.current = 0;
+            lastRef.current = null;
+            setProgress(0);
             return;
         }
-
-        const timeout = window.setTimeout(() => setIsVisible(true), 250);
-
-        return () => window.clearTimeout(timeout);
-    }, [isInitialFetching]);
-
-    useEffect(() => {
-        if (!isVisible) return;
 
         const duration = 1.6;
 
         const tick = (ts: number) => {
-            if (!lastRef.current) lastRef.current = ts;
+            if (lastRef.current === null) lastRef.current = ts;
 
             const dt = Math.min((ts - lastRef.current) / 1000, 0.05);
             lastRef.current = ts;
@@ -53,9 +52,9 @@ const Loader = () => {
             rafRef.current = null;
             lastRef.current = null;
         };
-    }, [isVisible]);
+    }, [isFetching]);
 
-    if (!isVisible) return null;
+    if (!isFetching) return null;
 
     const carSize = 90;
 
