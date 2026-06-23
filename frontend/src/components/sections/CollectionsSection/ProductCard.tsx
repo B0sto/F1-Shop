@@ -17,6 +17,7 @@ const ProductCard = ({ product, team }: ProductCardProps) => {
         <img
           src={product.imgSrc}
           alt={product.name}
+          loading="lazy"
           className="h-full w-full"
         />
       </div>

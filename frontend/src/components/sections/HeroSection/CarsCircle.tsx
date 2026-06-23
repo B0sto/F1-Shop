@@ -1,8 +1,8 @@
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import F1Logo from "../../icons/F1Logo"
-import { useQuery } from "@tanstack/react-query"
-import { getTeams } from "@/services/providers/api/teamApi"
+import { teamsQuery } from "@/services/providers/queries/homeQueries"
 
 export type TeamInfo = {
     title: string
@@ -25,13 +25,9 @@ const getShortestRotation = (from: number, to: number) => {
 const CarsCircle = ({ onTeamSelect }: CarsCircleProps) => {
     const [ringRotation, setRingRotation] = useState(0)
     const [selectedCarIndex, setSelectedCarIndex] = useState<number | null>(null)
+    const { data: response } = useQuery(teamsQuery)
 
-    const { data: response } = useQuery({
-        queryKey: ["Teams"],
-        queryFn: getTeams,
-    })
-
-    const cars = response?.data ?? [];
+    const cars = response?.data ?? []
     const carStep = cars.length > 0 ? 360 / cars.length : 0
 
     const handleCarClick = (index: number) => {

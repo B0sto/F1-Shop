@@ -7,6 +7,7 @@ const VintageCard = ({ imgSrc, name, price }: VintageCardType) => {
                 <img
                     src={imgSrc}
                     alt={name}
+                    loading="lazy"
                     className="h-full w-full object-contain"
                 />
             </div>
