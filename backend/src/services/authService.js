@@ -3,11 +3,11 @@ import RefreshToken from "../models/refreshTokenModel.js";
 import bcrypt from "bcryptjs";
 import User from "../models/userModel.js"
 
-const createAccessToken = (userId) => {
+export const createAccessToken = (userId) => {
     return jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN });
 }
 
-const createRefreshToken = (userId) => {
+export const createRefreshToken = (userId) => {
     return jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN });
 }
 
@@ -109,7 +109,83 @@ export const loginUser = async (userData) => {
         accessToken,
         refreshToken,
     };
+}
 
 
+export const refreshAccessToken = async (refreshToken) => {
+    if (!refreshToken) {
+        throw new Error("Refresh token is required");
+    }
 
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    const storedTokens = await RefreshToken.find({
+        user: decoded.userId,
+        expiresAt: { $gt: new Date() },
+    });
+
+    let matchedToken = null;
+
+    for (const storedToken of storedTokens) {
+        const isMatch = await bcrypt.compare(refreshToken, storedToken.tokenHash);
+
+        if (isMatch) {
+            matchedToken = storedToken;
+            break;
+        }
+    }
+
+    if (!matchedToken) {
+        throw new Error("Invalid refresh token");
+    }
+
+    const user = await User.findById(decoded.userId);
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    await RefreshToken.findByIdAndDelete(matchedToken._id);
+
+    const newAccessToken = createAccessToken(user._id);
+    const newRefreshToken = createRefreshToken(user._id);
+
+    await saveRefreshToken(user._id, newRefreshToken);
+
+    return {
+        user: {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            address: user.address,
+            avatar: user.avatar,
+            createdAt: user.createdAt,
+        },
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+    };
+};
+
+
+export const logoutUser = async (refreshToken) => {
+    if (!refreshToken) return;
+
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+        const storedTokens = await RefreshToken.find({
+            user: decoded.userId
+        });
+
+        for (const storedToken of storedTokens) {
+            const isMatch = await bcrypt.compare(refreshToken. storedTokens.tokenHash);
+
+            if (isMatch) {
+                await RefreshToken.findByIdAndDelete(storedToken._id);
+                break;
+            }
+        }
+    } catch {
+        return;
+    }
 }

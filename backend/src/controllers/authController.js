@@ -1,4 +1,4 @@
-import { loginUser, registerUser } from "../services/authService.js"
+import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../services/authService.js"
 import User from "../models/userModel.js";
 
 const refreshCookieOptions = {
@@ -6,6 +6,12 @@ const refreshCookieOptions = {
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000
+}
+
+const clearRefreshCookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: 'strict'
 }
 
 export const register = async (req, res) => {
@@ -81,6 +87,55 @@ export const getMe = async (req, res) => {
         res.status(500).json({
             success: false,
             message: error.message
+        })
+    }
+}
+
+
+export const refresh = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+
+        const { user, accessToken, refreshToken: newRefreshToken } = await refreshAccessToken(refreshToken);
+
+        res.cookie("refreshToken", newRefreshToken, refreshCookieOptions);
+
+        res.status(200).json({
+            success: true,
+            data: {
+                user,
+                accessToken
+            }
+        })
+    } catch (error) {
+        res.clearCookie("refreshToken", clearRefreshCookieOptions);
+
+        res.status(401).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
+export const logout = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+
+        await logoutUser(refreshToken);
+
+        res.clearCookie("refreshToken", clearRefreshCookieOptions);
+
+        res.status(200).json({
+            success: true,
+            message: "Logged out successfully",
+        })
+    } catch {
+        res.clearCookie("refreshToken", clearRefreshCookieOptions);
+
+        res.status(200).json({
+            success: true,
+            message: "Logged out Successfully"
         })
     }
 }
