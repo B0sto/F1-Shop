@@ -1,12 +1,17 @@
 import { Menu, X } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import type { NavigationItemsType } from "../../../types/NavigationItemType";
+import type {
+    NavigationAction,
+    NavigationItemsType
+} from "../../../types/NavigationItemType";
 
 type BurgerMenuProps = {
     navigationItems: NavigationItemsType[];
+    onAction: (action: NavigationAction) => void;
 }
 
-const BurgerMenu = ({ navigationItems }: BurgerMenuProps) => {
+const BurgerMenu = ({ navigationItems, onAction }: BurgerMenuProps) => {
     const [toggle, setToggle] = useState(false);
 
     useEffect(() => {
@@ -51,9 +56,31 @@ const BurgerMenu = ({ navigationItems }: BurgerMenuProps) => {
                         </button>
                         <ul className="space-y-4 pt-10">
                             {navigationItems.map((navItem: NavigationItemsType) => (
-                                <li key={navItem.pageName} className="flex items-center gap-x-3 font-irish text-lg">
-                                    <img src={navItem.imagePath} alt={`${navItem.pageName} Wheel`} className="size-11 shrink-0"/>
-                                    <span>{navItem.pageName}</span>
+                                <li key={navItem.pageName}>
+                                    {navItem.routeHref ? (
+                                        <Link
+                                            to={navItem.routeHref}
+                                            className="flex items-center gap-x-3 font-irish text-lg"
+                                            onClick={() => setToggle(false)}
+                                        >
+                                            <img src={navItem.imagePath} alt={`${navItem.pageName} Wheel`} className="size-11 shrink-0"/>
+                                            <span>{navItem.pageName}</span>
+                                        </Link>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            className="flex items-center gap-x-3 font-irish text-lg"
+                                            onClick={() => {
+                                                if (navItem.action) {
+                                                    onAction(navItem.action);
+                                                }
+                                                setToggle(false);
+                                            }}
+                                        >
+                                            <img src={navItem.imagePath} alt={`${navItem.pageName} Wheel`} className="size-11 shrink-0"/>
+                                            <span>{navItem.pageName}</span>
+                                        </button>
+                                    )}
                                 </li>
                             ))}
                         </ul>
