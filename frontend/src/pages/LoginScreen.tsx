@@ -3,7 +3,7 @@ import GoogleIcon from "@/components/icons/GoogleIcon"
 import { login } from "@/services/providers/api/authApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form"
@@ -45,8 +45,7 @@ const LoginScreen = () => {
       })
     } catch (error) {
       const message = axios.isAxiosError<{ message?: string }>(error)
-        ? error.response?.data.message ?? "Unable to log in"
-        : "Unable to log in"
+        ? error.response?.data.message : "Unable to Log in";
 
       setError("root", {
         type: "server",
@@ -58,13 +57,13 @@ const LoginScreen = () => {
 
   return (
     <div className="relative bg-[#060606] h-screen flex items-center justify-center flex-col">
-      <div
+      <Link
         className="absolute top-8 left-8 flex items-center gap-x-2 text-[#F90301] font-akshar text-[18px] cursor-pointer"
-        onClick={() => window.history.back()}
+        to="/home"
       >
         <ArrowLeft size={22} />
-        <span>Return to back</span>
-      </div>
+        <span>Return to home</span>
+      </Link>
 
       <F1Logo className="w-41 h-33.5" />
       <h1 className="text-[48px] font-irish text-white mb-3">

@@ -43,6 +43,66 @@ body,
     animation: bounce-letter 0.45s ease-in-out;
 }
 
+.logout-modal-overlay-in {
+    animation: logout-modal-overlay-in 200ms ease-in-out forwards;
+}
+
+.logout-modal-overlay-out {
+    animation: logout-modal-overlay-out 200ms ease-in-out forwards;
+}
+
+.logout-modal-content-in {
+    animation: logout-modal-content-in 200ms ease-in-out forwards;
+}
+
+.logout-modal-content-out {
+    animation: logout-modal-content-out 200ms ease-in-out forwards;
+}
+
+@keyframes logout-modal-overlay-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes logout-modal-overlay-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes logout-modal-content-in {
+    from {
+        opacity: 0;
+        transform: translateY(1.5rem) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes logout-modal-content-out {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(1.5rem) scale(0.9);
+    }
+}
+
 .f1-start-light {
     animation-duration: 5.5s;
     animation-iteration-count: infinite;
