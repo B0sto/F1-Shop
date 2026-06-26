@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type LogoutConfirmationModalProps = {
     isOpen: boolean;
@@ -6,11 +6,33 @@ type LogoutConfirmationModalProps = {
     onConfirm: () => void;
 };
 
+const animationDuration = 200;
+
 const LogoutConfirmationModal = ({
     isOpen,
     onCancel,
     onConfirm
 }: LogoutConfirmationModalProps) => {
+    const [shouldRender, setShouldRender] = useState(isOpen);
+    const [isClosing, setIsClosing] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) {
+            setShouldRender(true);
+            setIsClosing(false);
+            return;
+        }
+
+        setIsClosing(true);
+        const timeout = window.setTimeout(() => {
+            setShouldRender(false);
+        }, animationDuration);
+
+        return () => {
+            window.clearTimeout(timeout);
+        };
+    }, [isOpen]);
+
     useEffect(() => {
         if (!isOpen) return;
 
@@ -27,11 +49,13 @@ const LogoutConfirmationModal = ({
         };
     }, [isOpen, onCancel]);
 
-    if (!isOpen) return null;
+    if (!shouldRender) return null;
 
     return (
         <div
-            className="fixed inset-0 z-9998 flex items-center justify-center bg-black/70 px-4"
+            className={`fixed inset-0 z-9998 flex items-center justify-center bg-black/70 px-4 ${
+                isClosing ? "logout-modal-overlay-out pointer-events-none" : "logout-modal-overlay-in"
+            }`}
             role="dialog"
             aria-modal="true"
             aria-labelledby="logout-modal-title"
@@ -43,7 +67,9 @@ const LogoutConfirmationModal = ({
                 onClick={onCancel}
             />
 
-            <div className="relative w-full max-w-105 rounded-xl border border-[#F90301]/40 bg-[#110D0D] p-6 text-center shadow-2xl">
+            <div className={`relative w-full max-w-105 rounded-xl border border-[#F90301]/40 bg-[#110D0D] p-6 text-center shadow-2xl ${
+                isClosing ? "logout-modal-content-out" : "logout-modal-content-in"
+            }`}>
                 <h2
                     id="logout-modal-title"
                     className="font-irish text-3xl text-[#F90301]"
