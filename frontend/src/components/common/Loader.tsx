@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import { useIsFetching } from "@tanstack/react-query";
+import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import CarIcon from "@/components/common/CarIcon.tsx";
 
 const homeQueryKeys = new Set(["teams", "collections", "discounts", "vintages"]);
@@ -13,17 +13,20 @@ const Loader = () => {
             return typeof queryKey === "string" && homeQueryKeys.has(queryKey);
         },
     });
-    const isFetching = activeHomeFetches > 0;
+    const activeLogouts = useIsMutating({
+        mutationKey: ["logout"],
+    });
+    const isLogoutLoading = activeLogouts > 0;
+    const isLoading = activeHomeFetches > 0 || isLogoutLoading;
 
     const pRef = useRef(0);
     const lastRef = useRef<number | null>(null);
     const rafRef = useRef<number | null>(null);
 
     useEffect(() => {
-        if (!isFetching) {
+        if (!isLoading) {
             pRef.current = 0;
             lastRef.current = null;
-            setProgress(0);
             return;
         }
 
@@ -38,6 +41,12 @@ const Loader = () => {
             pRef.current += dt / duration;
 
             if (pRef.current >= 1) {
+                if (isLogoutLoading) {
+                    pRef.current = 1;
+                    setProgress(1);
+                    return;
+                }
+
                 pRef.current = 0;
             }
 
@@ -52,9 +61,9 @@ const Loader = () => {
             rafRef.current = null;
             lastRef.current = null;
         };
-    }, [isFetching]);
+    }, [isLoading, isLogoutLoading]);
 
-    if (!isFetching) return null;
+    if (!isLoading) return null;
 
     const carSize = 90;
 

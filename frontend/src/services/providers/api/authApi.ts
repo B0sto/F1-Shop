@@ -27,6 +27,11 @@ export const login = async (payload: { email: string; password: string }) => {
     return res.data.data.user;
 }
 
+export const logout = async () => {
+    await apiClient.post("/api/auth/logout");
+    authToken.set(null);
+}
+
 
 export const register = async (payload: {
     username: string
