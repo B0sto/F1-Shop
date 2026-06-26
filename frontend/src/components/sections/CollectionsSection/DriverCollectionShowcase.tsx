@@ -1,26 +1,26 @@
-import { useQuery } from '@tanstack/react-query'
 import DriverCard from './DriverCard'
 import ProductCarousel from './ProductCarousel'
-import { collectionsQuery } from '@/services/providers/queries/homeQueries'
+import type {DriverCollectionType} from "@/types/DriverCollectionType.ts";
 
-const DriverCollectionShowcase = () => {
-  const { data: response } = useQuery(collectionsQuery)
+type DriverCollectionShowcaseProps = {
+    collections: DriverCollectionType[]
+}
 
-  const collections = response?.data ?? []
+const DriverCollectionShowcase = ({collections}: DriverCollectionShowcaseProps) => {
 
-  return (
-    <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">
-      {collections.map(({ driver, products }) => (
-        <div
-          key={driver.name}
-          className="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8"
-        >
-          <DriverCard driver={driver} />
-          <ProductCarousel products={products} team={driver.team} />
+    return (
+        <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">
+            {collections.map(({driver, products}) => (
+                <div
+                    key={driver.name}
+                    className="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8"
+                >
+                    <DriverCard driver={driver}/>
+                    <ProductCarousel products={products} team={driver.team}/>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  )
+    )
 }
 
 export default DriverCollectionShowcase

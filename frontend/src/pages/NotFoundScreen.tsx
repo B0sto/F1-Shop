@@ -1,7 +1,7 @@
 import F1Logo from "@/components/icons/F1Logo";
 import { Link } from "@tanstack/react-router";
 
-const NotFoundPage = () => {
+const NotFoundScreen = () => {
     return (
         <main className="flex min-h-screen flex-col items-center justify-center bg-[#060606] px-4 text-center font-akshar text-white">
             <F1Logo className="h-30 w-37 object-contain" />
@@ -24,4 +24,4 @@ const NotFoundPage = () => {
     );
 };
 
-export default NotFoundPage;
+export default NotFoundScreen;
