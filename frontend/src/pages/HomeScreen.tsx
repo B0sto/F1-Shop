@@ -7,16 +7,16 @@ import SpecialDiscountsSection from "@/components/sections/SpecialDiscountsSecti
 
 const HomeScreen = () => {
   return (
-    <>
+    <div className="h-dvh overflow-hidden bg-[#110D0D]">
       <HeaderComponent />
-      <main className="space-y-16 sm:space-y-20 lg:space-y-24 xl:space-y-30">
+      <main className="mt-16 h-[calc(100dvh-4rem)] space-y-16 overflow-x-hidden overflow-y-auto sm:mt-18.75 sm:h-[calc(100dvh-75px)] sm:space-y-20 lg:space-y-24 xl:space-y-30">
         <HeroSection />
         <CollectionsSection />
         <SpecialDiscountsSection />
         <VintageSection />
         <Footer />
       </main>
-    </>
+    </div>
   )
 }
 

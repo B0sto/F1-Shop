@@ -34,7 +34,7 @@ const navigationItems: NavigationItemsType[] = [
     },
     {
         pageName: "Logout",
-        imagePath: "/userProfileWheel.svg",
+        imagePath: "/loginWheel.svg",
         action: "logout"
     },
     {
