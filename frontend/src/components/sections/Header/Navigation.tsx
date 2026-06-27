@@ -34,17 +34,17 @@ const navigationItems: NavigationItemsType[] = [
     },
     {
         pageName: "Logout",
-        imagePath: "/userProfileWheel.svg",
+        imagePath: "/loginWheel.svg",
         action: "logout"
     },
     {
         pageName: "Login",
-        imagePath: "/userProfileWheel.svg",
+        imagePath: "/loginWheel.svg",
         routeHref: "/login"
     },
     {
         pageName: "Register",
-        imagePath: "/userProfileWheel.svg",
+        imagePath: "/registerWheel.svg",
         routeHref: "/register"
     }
 ]
