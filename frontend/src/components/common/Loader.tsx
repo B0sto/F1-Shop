@@ -63,12 +63,27 @@ const Loader = () => {
         };
     }, [isLoading, isLogoutLoading]);
 
+    useEffect(() => {
+        if (!isLoading) return;
+
+        const bodyOverflow = document.body.style.overflow;
+        const htmlOverflow = document.documentElement.style.overflow;
+
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = bodyOverflow;
+            document.documentElement.style.overflow = htmlOverflow;
+        };
+    }, [isLoading]);
+
     if (!isLoading) return null;
 
     const carSize = 90;
 
     return (
-        <div className="fixed inset-0 z-9999 flex flex-col items-center justify-center gap-6 bg-[#050505]">
+        <div className="fixed inset-0 z-9999 flex h-dvh flex-col items-center justify-center gap-6 overflow-hidden overscroll-none bg-[#050505]">
             <div className="relative h-22.5 w-[90%] max-w-130">
                 <div className="absolute right-0 bottom-7 left-0 h-1.5 rounded-full bg-[#2a2a2a]" />
 
