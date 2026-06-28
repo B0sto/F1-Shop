@@ -1,7 +1,7 @@
 import { CalendarDays, Mail, MapPin, ShoppingBag, WalletCards } from "lucide-react"
 
-import type { UserProfile } from "./types"
 import ProfileStatCard from "./ProfileStatCard"
+import type { UserProfile } from "@/types/UserProfileType"
 
 type ProfileCardProps = {
   profile: UserProfile

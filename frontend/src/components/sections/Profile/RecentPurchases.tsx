@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react"
 
 import PurchaseItem from "./PurchaseItem"
-import type { Purchase } from "./types"
+import type { Purchase } from "@/types/PurchaseType"
 
 type RecentPurchasesProps = {
   purchases: Purchase[]

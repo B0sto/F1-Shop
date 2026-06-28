@@ -1,7 +1,7 @@
+import type { Purchase, PurchaseStatus } from "@/types/PurchaseType"
 import { ArrowRight, PackageCheck, Truck } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
-import type { Purchase, PurchaseStatus } from "./types"
 
 type PurchaseItemProps = {
   purchase: Purchase
