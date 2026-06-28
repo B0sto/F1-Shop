@@ -3,7 +3,7 @@ const supportLinks = ["Shipping & Returns", "Contact Us", "FAQ"];
 
 const Footer = () => {
     return (
-        <footer className="ml-2.5 bg-black border-t border-white/30 px-4 pt-3 pb-8 font-akshar text-white sm:px-8 sm:pt-16 sm:pb-14 lg:px-12 lg:pt-20 lg:pb-16 xl:px-16 2xl:px-36">
+        <footer className="bg-black border-t border-white/30 px-4 pt-3 pb-8 font-akshar text-white sm:px-8 sm:pt-16 sm:pb-14 lg:px-12 lg:pt-20 lg:pb-16 xl:px-16 2xl:px-36">
             <div className="w-full">
                 <div className="grid gap-5 text-center md:grid-cols-2 md:text-left lg:gap-16 xl:grid-cols-[1.15fr_0.9fr_0.9fr_1.35fr]">
                     <section>
