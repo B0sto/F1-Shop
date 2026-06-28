@@ -7,6 +7,7 @@ import collectionRoutes from "./src/routes/collectionRoutes.js";
 import discountRoutes from "./src/routes/discountRoutes.js"
 import vintageRoutes from "./src/routes/vintageRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js"
+import cartRoutes from "./src/routes/cartRoutes.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -27,6 +28,7 @@ app.use("/api/vintages", vintageRoutes);
 
 
 app.use("/api/auth", authRoutes);
+app.use("/api/cart", cartRoutes);
 
 
 app.get("/", (req, res) => {
