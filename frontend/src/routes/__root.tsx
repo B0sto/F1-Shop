@@ -11,7 +11,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootComponent() {
     return (
-        <div className="mx-auto min-h-screen w-full max-w-480 overflow-x-hidden">
+        <div className="min-h-screen w-full overflow-x-hidden">
             <Loader />
             <Outlet />
         </div>
