@@ -1,18 +1,23 @@
 import { useState } from "react"
 
+type Size = string | number;
+
 type SizeSelectorProps = {
-    sizes: Array<string | number>;
-    selectedSize?: string | number;
-    onSelectSize?: (size: string | number) => void;
+    sizes: Size[];
+    value?: Size;
+    onChange?: (size: Size) => void;
 }
 
-const SizeSelector = ({ sizes, selectedSize, onSelectSize }: SizeSelectorProps) => {
-    const [internalSelectedSize, setInternalSelectedSize] = useState<string | number>();
-    const activeSize = selectedSize ?? internalSelectedSize;
+const buttonClass =
+    "flex h-5 min-w-4 cursor-pointer items-center justify-center border border-[#292525] px-1 text-[11px] leading-none transition-colors duration-300";
 
-    const handleSelectSize = (size: string | number) => {
-        setInternalSelectedSize(size);
-        onSelectSize?.(size);
+const SizeSelector = ({ sizes, value, onChange }: SizeSelectorProps) => {
+    const [selectedSize, setSelectedSize] = useState<Size>();
+    const activeSize = value ?? selectedSize;
+
+    const handleSelectSize = (size: Size) => {
+        setSelectedSize(size);
+        onChange?.(size);
     }
 
     return (
@@ -21,10 +26,10 @@ const SizeSelector = ({ sizes, selectedSize, onSelectSize }: SizeSelectorProps) 
                 <button
                     type="button"
                     key={size}
-                    className={`flex h-5 min-w-4 items-center justify-center border border-[#292525] px-1 text-[11px] leading-none cursor-pointer transition-colors duration-300 text-[#110D0D] ${
+                    className={`${buttonClass} ${
                         activeSize === size
                             ? "bg-[#544D4D] text-[#FFFCFC]"
-                            : "bg-[#FFFCFC] hover:bg-[#a69f9f]"
+                            : "bg-[#FFFCFC] text-[#110D0D] hover:bg-[#a69f9f]"
                     }`}
                     aria-pressed={activeSize === size}
                     onClick={() => handleSelectSize(size)}
@@ -33,7 +38,6 @@ const SizeSelector = ({ sizes, selectedSize, onSelectSize }: SizeSelectorProps) 
                 </button>
             ))}
         </div>
-
     )
 }
 

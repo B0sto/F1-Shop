@@ -30,7 +30,7 @@ const ProductCard = ({ product, team }: ProductCardProps) => {
 
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <p className="text-base sm:text-lg">Price: ${product.price}</p>
-          <Button className={buttonStyles} />
+          <Button className={buttonStyles} product={product}/>
         </div>
       </div>
 

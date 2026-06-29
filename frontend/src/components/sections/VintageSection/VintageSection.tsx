@@ -45,7 +45,7 @@ const VintageSection = () => {
     };
 
     return (
-        <section className="pt-1 ml-2.5">
+        <section className="pt-1">
             <SectionTitle
                 title="Vintage F1 Collection"
                 className="px-4 pb-12 font-akshar text-white sm:px-8 sm:pb-16 lg:px-12 xl:px-16 2xl:px-36"
