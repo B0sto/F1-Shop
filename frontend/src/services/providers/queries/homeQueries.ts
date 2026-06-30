@@ -1,4 +1,4 @@
-import { queryOptions } from "@tanstack/react-query"
+import { queryOptions, keepPreviousData } from "@tanstack/react-query"
 
 import { getCollections } from "@/services/providers/api/collectionsApi"
 import { getDiscounts } from "@/services/providers/api/discountsApi"
@@ -10,10 +10,17 @@ export const teamsQuery = queryOptions({
   queryFn: getTeams,
 })
 
-export const collectionsQuery = queryOptions({
-  queryKey: ["collections"],
-  queryFn: getCollections,
-})
+export const collectionsQuery = (page: number, search: string) =>
+  queryOptions({
+    queryKey: ["collections", page, search],
+    queryFn: () =>
+      getCollections({
+        page,
+        limit: 3,
+        search,
+      }),
+      placeholderData: keepPreviousData
+  });
 
 export const discountsQuery = queryOptions({
   queryKey: ["discounts"],
