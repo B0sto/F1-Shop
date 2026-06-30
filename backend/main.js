@@ -8,6 +8,7 @@ import discountRoutes from "./src/routes/discountRoutes.js"
 import vintageRoutes from "./src/routes/vintageRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js"
 import cartRoutes from "./src/routes/cartRoutes.js";
+import orderRoutes from "./src/routes/orderRoutes.js"
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -25,6 +26,8 @@ app.use("/api/teams", teamRoutes);
 app.use("/api/collections", collectionRoutes);
 app.use("/api/discounts", discountRoutes);
 app.use("/api/vintages", vintageRoutes);
+
+app.use("/api/orders", orderRoutes)
 
 
 app.use("/api/auth", authRoutes);
