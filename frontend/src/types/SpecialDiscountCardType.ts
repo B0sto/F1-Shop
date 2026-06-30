@@ -1,7 +1,7 @@
-export type SpecialDiscountCardType = {
-  imgSrc: string
-  name: string
-  price: number
-  discount: number
-  sizes: Array<string | number>
-}
+import type { ProductType } from "./ProductType";
+
+export type SpecialDiscountCardType = ProductType & {
+  _id: string;
+  discount: number;
+  sizes: Array<string | number>;
+};

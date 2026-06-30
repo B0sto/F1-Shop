@@ -24,6 +24,9 @@ export const addItemToCart = async (userId, itemData) => {
     const quantity = Number(itemData.quantity ?? 1);
     const unitPrice = Number(itemData.unitPrice);
     const size = itemData.size || "One Size";
+    const sizes = Array.isArray(itemData.sizes)
+        ? itemData.sizes.map((itemSize) => itemSize.toString())
+        : [];
 
     const existingItem = cart.items.find((item) => {
         return (
@@ -37,6 +40,7 @@ export const addItemToCart = async (userId, itemData) => {
         existingItem.quantity += quantity;
         existingItem.unitPrice = unitPrice;
         existingItem.selected = true;
+        existingItem.sizes = sizes;
     } else {
         cart.items.push({
             productId: itemData.productId,
@@ -44,6 +48,7 @@ export const addItemToCart = async (userId, itemData) => {
             name: itemData.name,
             image: itemData.image,
             size,
+            sizes,
             quantity,
             unitPrice,
             totalPrice: unitPrice * quantity,

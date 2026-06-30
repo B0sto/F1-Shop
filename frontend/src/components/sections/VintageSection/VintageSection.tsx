@@ -45,7 +45,7 @@ const VintageSection = () => {
     };
 
     return (
-        <section className="pt-1 ml-2.5">
+        <section className="pt-1">
             <SectionTitle
                 title="Vintage F1 Collection"
                 className="px-4 pb-12 font-akshar text-white sm:px-8 sm:pb-16 lg:px-12 xl:px-16 2xl:px-36"
@@ -80,9 +80,10 @@ const VintageSection = () => {
                     <div className="relative flex h-125 w-full max-w-95 items-center justify-center overflow-hidden">
                         {vintageProducts.map((product, index) => (
                             <div
-                                key={product.imgSrc}
+                                key={product._id}
                                 style={getCardStyle(index)}
-                                className="absolute transition-all duration-700 ease-in-out"
+                                onClick={() => setActive(index)}
+                                className="absolute cursor-pointer transition-all duration-700 ease-in-out"
                             >
                                 <VintageCard {...product} />
                             </div>
@@ -94,17 +95,12 @@ const VintageSection = () => {
                     <div className="relative flex h-140 w-105 items-center justify-center">
                         {vintageProducts.map((product, index) => (
                             <div
-                                key={product.imgSrc}
+                                key={product._id}
                                 style={getCardStyle(index)}
-                                className="absolute transition-all duration-700 ease-in-out"
+                                onClick={() => setActive(index)}
+                                className="absolute cursor-pointer transition-all duration-700 ease-in-out"
                             >
-                                <button
-                                    type="button"
-                                    aria-label={`Show ${product.name}`}
-                                    onClick={() => setActive(index)}
-                                    className="absolute inset-0 z-10 cursor-pointer rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-                                />
-                                <div className="pointer-events-none relative z-0">
+                                <div className="relative">
                                     <VintageCard {...product} />
                                 </div>
                             </div>

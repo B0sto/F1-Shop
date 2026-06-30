@@ -1,5 +1,5 @@
-export type VintageCardType = {
-    imgSrc: string;
-    name: string;
-    price: number;
-}
+import type { ProductType } from "./ProductType";
+
+export type VintageCardType = ProductType & {
+    _id: string;
+};
