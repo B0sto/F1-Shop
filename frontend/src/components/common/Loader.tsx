@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import CarIcon from "@/components/common/CarIcon.tsx";
 
-const homeQueryKeys = new Set(["teams", "collections", "discounts", "vintages"]);
+const homeQueryKeys = new Set(["teams", "discounts", "vintages"]);
 
 const Loader = () => {
     const [progress, setProgress] = useState(0);

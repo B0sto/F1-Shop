@@ -6,7 +6,7 @@ import { collectionsQuery, discountsQuery, teamsQuery, vintagesQuery } from '@/s
 export const Route = createFileRoute('/_main/home')({
   loader: ({ context }) => {
     context.queryClient.prefetchQuery(teamsQuery)
-    context.queryClient.prefetchQuery(collectionsQuery)
+    context.queryClient.prefetchQuery(collectionsQuery(1, ""))
     context.queryClient.prefetchQuery(discountsQuery)
     context.queryClient.prefetchQuery(vintagesQuery)
   },

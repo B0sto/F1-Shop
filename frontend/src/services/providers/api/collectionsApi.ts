@@ -1,13 +1,25 @@
-import type { ApiResponse } from "@/types/ApiResponseType";
-import type { DriverCollectionType } from "@/types/DriverCollectionType";
+// import type { ApiResponse } from "@/types/ApiResponseType";
+// import type { DriverCollectionType } from "@/types/DriverCollectionType";
 import axios from "axios"
 
-export const getCollections = async (): Promise<ApiResponse<DriverCollectionType[]>> => {
-    try {
-        const res = await axios.get<ApiResponse<DriverCollectionType[]>>(`${import.meta.env.VITE_API}/api/collections`);
-        return res.data;
-    } catch (error) {
-        throw new Error("Error while fetching collections", { cause: error })
-    }
+type CollectionParams = {
+    page: number;
+    limit: number;
+    search?: string;
+}
 
+export const getCollections = async ({
+    page,
+    limit,
+    search = "",
+}: CollectionParams) => {
+    const res = await axios.get(`${import.meta.env.VITE_API}/api/collections`, {
+        params: {
+            page,
+            limit,
+            search
+        }
+    })
+
+    return res.data
 }
