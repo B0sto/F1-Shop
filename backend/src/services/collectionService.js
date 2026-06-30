@@ -1,8 +1,31 @@
 import collectionModel from "../models/collectionModel.js"
 
 
-export const getAllCollections = async () => {
-    return collectionModel.find().sort({ createdAt: 1, _id: 1 });
+export const getAllCollections = async ({ page = 1, limit = 3, search="" } = {}) => {
+    const skip = (page - 1) * limit;
+
+    const filter = search ? { "driver.name": { $regex: search, $options: "i" } } : {};
+
+    const [collections, totalItems] = await Promise.all([
+        collectionModel
+        .find(filter)
+        .sort({ createdAt: 1, _id: 1 })
+        .skip(skip)
+        .limit(limit),
+
+        collectionModel.countDocuments(filter)
+    ])
+
+    return {
+        collections,
+        pagination: {
+            page,
+            limit,
+            totalItems,
+            totalPages: Math.ceil(totalItems / limit)
+        }
+    }
+    
 }
 
 
