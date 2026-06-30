@@ -6,7 +6,7 @@ import CartCheckoutCard from "./CartCheckoutCard";
 import CartRow from "./CartRow";
 
 const pageClass =
-    "min-h-full h-screen w-full px-4 py-8 font-akshar text-white sm:px-8 min-[1180px]:px-0 min-[1180px]:py-0";
+    "min-h-full h-full w-full px-4 py-8 font-akshar text-white sm:px-8 min-[1180px]:px-0 min-[1180px]:py-0";
 const headerClass =
     "mb-8 flex items-center gap-4 min-[1180px]:relative min-[1180px]:mb-0 min-[1180px]:h-39.5 min-[1180px]:justify-center";
 const layoutClass =

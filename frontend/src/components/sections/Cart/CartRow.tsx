@@ -2,7 +2,8 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { deleteCartItem, updateCartItem } from "@/services/providers/api/cartApi";
+import SizeSelector from "@/components/common/SizeSelector";
+import { deleteCartItem, updateCartItem, type UpdateCartItemPayload } from "@/services/providers/api/cartApi";
 import { cartQuery } from "@/services/providers/queries/cartQueries";
 import CartCheckbox from "./CartCheckbox";
 import type { CartItem } from "@/types/CartItemType";
@@ -21,6 +22,8 @@ const valueCellClass =
 
 const CartRow = ({ item }: CartRowProps) => {
     const queryClient = useQueryClient();
+    const itemSizes = item.sizes ?? [];
+    const hasSizeOptions = itemSizes.length > 1;
 
     const { mutate: removeItem, isPending: isRemoving } = useMutation({
         mutationFn: deleteCartItem,
@@ -33,24 +36,28 @@ const CartRow = ({ item }: CartRowProps) => {
         },
     });
 
-    const { mutate: updateQuantity, isPending: isUpdatingQuantity } = useMutation({
-        mutationFn: (quantity: number) => updateCartItem(item._id, { quantity }),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: cartQuery.queryKey });
+    const { mutate: updateItem, isPending: isUpdatingItem } = useMutation({
+        mutationFn: (payload: UpdateCartItemPayload) => updateCartItem(item._id, payload),
+        onSuccess: (cart) => {
+            queryClient.setQueryData(cartQuery.queryKey, cart);
         },
         onError: () => {
-            toast.error("Failed to update quantity");
+            toast.error("Failed to update cart item");
         },
     });
 
     const handleDecrease = () => {
         if (item.quantity <= 1) return;
 
-        updateQuantity(item.quantity - 1);
+        updateItem({ quantity: item.quantity - 1 });
     };
 
     const handleIncrease = () => {
-        updateQuantity(item.quantity + 1);
+        updateItem({ quantity: item.quantity + 1 });
+    };
+
+    const handleSizeChange = (size: string | number) => {
+        updateItem({ size: size.toString() });
     };
 
     return (
@@ -79,7 +86,7 @@ const CartRow = ({ item }: CartRowProps) => {
                         type="button"
                         aria-label={`Decrease ${item.name} quantity`}
                         className={quantityButtonClass}
-                        disabled={item.quantity <= 1 || isUpdatingQuantity}
+                        disabled={item.quantity <= 1 || isUpdatingItem}
                         onClick={handleDecrease}
                     >
                         <Minus className="size-4" />
@@ -91,7 +98,7 @@ const CartRow = ({ item }: CartRowProps) => {
                         type="button"
                         aria-label={`Increase ${item.name} quantity`}
                         className={quantityButtonClass}
-                        disabled={isUpdatingQuantity}
+                        disabled={isUpdatingItem}
                         onClick={handleIncrease}
                     >
                         <Plus className="size-4" />
@@ -101,7 +108,15 @@ const CartRow = ({ item }: CartRowProps) => {
 
             <div className={`${valueCellClass} min-[1180px]:col-start-4 min-[1180px]:pt-14.5`}>
                 <span className={labelClass}>Size</span>
-                <span>{item.size}</span>
+                {hasSizeOptions ? (
+                    <SizeSelector
+                        sizes={itemSizes}
+                        value={item.size}
+                        onChange={handleSizeChange}
+                    />
+                ) : (
+                    <span>{item.size}</span>
+                )}
             </div>
 
             <div className="flex items-center justify-between min-[1180px]:col-start-5 min-[1180px]:block min-[1180px]:justify-self-center min-[1180px]:pt-13.75">

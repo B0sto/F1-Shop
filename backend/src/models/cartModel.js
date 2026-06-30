@@ -24,6 +24,10 @@ const cartItemSchema = new mongoose.Schema(
             type: String,
             default: "One Size",
         },
+        sizes: {
+            type: [String],
+            default: [],
+        },
         quantity: {
             type: Number,
             required: true,

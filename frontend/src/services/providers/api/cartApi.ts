@@ -13,6 +13,7 @@ export type AddCartItemPayload = {
   unitPrice: number;
   quantity?: number;
   size?: string;
+  sizes?: string[];
   selected?: boolean;
 };
 
