@@ -12,11 +12,17 @@ import {
 
 export const getCollections = async (req, res) => {
     try {
-        const collections = await getAllCollections();
+        const page = Number(req.query.page ?? 1);
+        const limit = Number(req.query.limit ?? 3);
+        const search = req.query.search ?? "";
+
+        
+        const result = await getAllCollections({ page, limit, search });
 
         res.status(200).json({
             success: true,
-            data: collections,
+            data: result.collections,
+            pagination: result.pagination
         });
     } catch (error) {
         res.status(500).json({
