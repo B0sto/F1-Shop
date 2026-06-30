@@ -13,12 +13,12 @@ const ProductCard = ({ product, team }: ProductCardProps) => {
 
   return (
     <div className="w-full">
-      <div className="aspect-square overflow-hidden rounded-2xl bg-white">
+      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl">
         <img
           src={product.imgSrc}
           alt={product.name}
           loading="lazy"
-          className="h-full w-full"
+          className="w-[80%] h-[90%] object-cover rounded-2xl"
         />
       </div>
 
@@ -30,7 +30,7 @@ const ProductCard = ({ product, team }: ProductCardProps) => {
 
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <p className="text-base sm:text-lg">Price: ${product.price}</p>
-          <Button className={buttonStyles} />
+          <Button className={buttonStyles} product={product} />
         </div>
       </div>
 
