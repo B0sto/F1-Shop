@@ -60,12 +60,16 @@ const CartRow = ({ item }: CartRowProps) => {
         updateItem({ size: size.toString() });
     };
 
+    const handleToggleSelected = () => {
+        updateItem({ selected: !item.selected });
+    }
+
     return (
         <article className={rowClass}>
             <div className="flex min-w-0 gap-4 min-[1180px]:col-start-1 min-[1180px]:block">
                 <div className="relative flex size-32 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#f4f4f4] min-[1180px]:h-31.5 min-[1180px]:w-33">
                     <img src={item.image} alt={item.name} className="h-full w-full object-contain" />
-                    <CartCheckbox selected={item.selected} />
+                    <CartCheckbox selected={item.selected} disabled={isUpdatingItem} onToggle={handleToggleSelected} />
                 </div>
 
                 <p className="min-w-0 text-[18px] leading-6 text-white min-[1180px]:mt-3.25 min-[1180px]:w-37.5 min-[1180px]:text-[12px] min-[1180px]:leading-4">
@@ -78,7 +82,7 @@ const CartRow = ({ item }: CartRowProps) => {
                 <span>${item.unitPrice}</span>
             </div>
 
-            <div className="flex items-center justify-between text-[18px] leading-none min-[1180px]:col-start-3 min-[1180px]:justify-center min-[1180px]:pt-13.75 min-[1180px]:text-[24px]">
+            <div className="flex items-center justify-between text-[18px] leading-none min-[1180px]:col-start-3 min-[1180px]:items-start min-[1180px]:justify-center min-[1180px]:pt-13.75 min-[1180px]:text-[24px]">
                 <span className={labelClass}>Qty</span>
 
                 <div className="flex items-center gap-1">

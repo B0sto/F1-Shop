@@ -4,7 +4,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_main/cart')({
   loader: ({context}) => {
-    context.queryClient.prefetchQuery(cartQuery);
+    context.queryClient.ensureQueryData(cartQuery);
   },
   component: CartRoute,
 })
