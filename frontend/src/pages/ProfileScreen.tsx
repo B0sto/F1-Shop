@@ -25,7 +25,7 @@ const ProfileScreen = () => {
         year: "numeric",
       })
       : "N/A",
-    totalSpent: "$0.00",
+    totalSpent: user?.totalSpent ?? 0,
     avatar: user?.avatar || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=80",
   }
 

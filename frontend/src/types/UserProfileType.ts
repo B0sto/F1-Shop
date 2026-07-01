@@ -4,6 +4,6 @@ export type UserProfile = {
   email: string
   address: string
   memberSince: string
-  totalSpent: string
+  totalSpent: number;
   avatar: string
 }

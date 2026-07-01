@@ -46,7 +46,7 @@ const ProfileCard = ({ profile, totalOrders }: ProfileCardProps) => {
 
         <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
           <ProfileStatCard icon={CalendarDays} label="Since" value={profile.memberSince} />
-          <ProfileStatCard icon={WalletCards} label="Spent" value={profile.totalSpent} />
+          <ProfileStatCard icon={WalletCards} label="Spent" value={`$${profile.totalSpent}.00`} />
           <ProfileStatCard icon={ShoppingBag} label="Orders" value={totalOrders} />
         </div>
       </div>

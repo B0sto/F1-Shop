@@ -8,6 +8,7 @@ type AuthUser = {
     address?: string;
     avatar?: string;
     createdAt: string
+    totalSpent: number;
 }
 
 type AuthResponse = {
