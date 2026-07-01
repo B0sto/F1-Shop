@@ -3,6 +3,7 @@ import type { ApiResponse } from "@/types/ApiResponseType";
 import type { CartItem } from "@/types/CartItemType";
 import type { Cart } from "@/types/CartType";
 import type { CheckoutType } from "@/types/CheckoutType";
+import type { Order } from "@/types/OrderType";
 
 export type OrderItem = Pick<
   CartItem,
@@ -13,20 +14,6 @@ export type OrderCustomer = Omit<CheckoutType, "cardNumber">;
 
 export type OrderPayment = {
   cardLast4: string;
-};
-
-export type Order = {
-  _id: string;
-  user: string;
-  items: OrderItem[];
-  customer: OrderCustomer;
-  payment: OrderPayment;
-  subtotal: number;
-  shipping: number;
-  total: number;
-  status: "paid" | "cancelled";
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type CheckoutResult = {

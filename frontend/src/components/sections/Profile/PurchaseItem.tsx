@@ -22,12 +22,12 @@ const PurchaseItem = ({ purchase }: PurchaseItemProps) => {
 
   return (
     <article className="grid grid-cols-[80px_minmax(0,1fr)] gap-4 p-4 sm:grid-cols-[96px_minmax(0,1fr)] sm:gap-5 sm:p-6 xl:grid-cols-[100px_minmax(0,1fr)_auto] xl:items-center">
-      <div className="flex size-20 items-center justify-center rounded-lg bg-white p-2.5 sm:size-24 sm:p-3">
+      <div className="rounded-lg sm:size-24">
         <img
           src={purchase.image}
           alt={purchase.name}
           loading="lazy"
-          className="h-full w-full object-contain"
+          className="h-full w-full rounded-2xl"
         />
       </div>
 
