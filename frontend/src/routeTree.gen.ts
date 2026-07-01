@@ -15,6 +15,7 @@ import { Route as MainRouteImport } from './routes/_main'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MainProfileRouteImport } from './routes/_main.profile'
 import { Route as MainHomeRouteImport } from './routes/_main.home'
+import { Route as MainCheckoutRouteImport } from './routes/_main.checkout'
 import { Route as MainCartRouteImport } from './routes/_main.cart'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -46,6 +47,11 @@ const MainHomeRoute = MainHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => MainRoute,
 } as any)
+const MainCheckoutRoute = MainCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => MainRoute,
+} as any)
 const MainCartRoute = MainCartRouteImport.update({
   id: '/cart',
   path: '/cart',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/cart': typeof MainCartRoute
+  '/checkout': typeof MainCheckoutRoute
   '/home': typeof MainHomeRoute
   '/profile': typeof MainProfileRoute
 }
@@ -65,6 +72,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/cart': typeof MainCartRoute
+  '/checkout': typeof MainCheckoutRoute
   '/home': typeof MainHomeRoute
   '/profile': typeof MainProfileRoute
 }
@@ -75,14 +83,29 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_main/cart': typeof MainCartRoute
+  '/_main/checkout': typeof MainCheckoutRoute
   '/_main/home': typeof MainHomeRoute
   '/_main/profile': typeof MainProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/cart' | '/home' | '/profile'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/cart'
+    | '/checkout'
+    | '/home'
+    | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/cart' | '/home' | '/profile'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/cart'
+    | '/checkout'
+    | '/home'
+    | '/profile'
   id:
     | '__root__'
     | '/'
@@ -90,6 +113,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/_main/cart'
+    | '/_main/checkout'
     | '/_main/home'
     | '/_main/profile'
   fileRoutesById: FileRoutesById
@@ -145,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainHomeRouteImport
       parentRoute: typeof MainRoute
     }
+    '/_main/checkout': {
+      id: '/_main/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof MainCheckoutRouteImport
+      parentRoute: typeof MainRoute
+    }
     '/_main/cart': {
       id: '/_main/cart'
       path: '/cart'
@@ -157,12 +188,14 @@ declare module '@tanstack/react-router' {
 
 interface MainRouteChildren {
   MainCartRoute: typeof MainCartRoute
+  MainCheckoutRoute: typeof MainCheckoutRoute
   MainHomeRoute: typeof MainHomeRoute
   MainProfileRoute: typeof MainProfileRoute
 }
 
 const MainRouteChildren: MainRouteChildren = {
   MainCartRoute: MainCartRoute,
+  MainCheckoutRoute: MainCheckoutRoute,
   MainHomeRoute: MainHomeRoute,
   MainProfileRoute: MainProfileRoute,
 }

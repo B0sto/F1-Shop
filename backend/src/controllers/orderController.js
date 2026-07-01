@@ -44,7 +44,7 @@ export const getOrders = async (req, res) => {
 
 
 
-export const getRecentOrders = async (rqe, res) => {
+export const getRecentOrders = async (req, res) => {
     try {
         const limit = Number(req.query.limit ?? 3);
         const orders = await getRecentOrdersByUserId(req.userId, limit);
@@ -64,7 +64,7 @@ export const getRecentOrders = async (rqe, res) => {
 
 export const getOrderById = async (req, res) => {
     try {
-        const order = await getOrderByUserAndId(req.userId, req.body);
+        const order = await getOrderByUserAndId(req.userId, req.params.id);
 
         if (!order) {
             return res.status(404).json({
