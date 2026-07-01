@@ -1,6 +1,7 @@
 import { clearCart } from "@/services/providers/api/cartApi";
 import { cartQuery } from "@/services/providers/queries/cartQueries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 
 type CartCheckoutCardProps = {
@@ -25,7 +26,7 @@ const CartCheckoutCard = ({ total, className = "", disabled = false }: CartCheck
         }
     })
 
-    
+
 
     return (
         <div className={className}>
@@ -46,13 +47,13 @@ const CartCheckoutCard = ({ total, className = "", disabled = false }: CartCheck
                 Clear cart
             </button>
 
-            <button
-                type="button"
+            <Link
+                to="/checkout"
                 disabled={disabled}
-                className="mt-auto h-11 w-46.25 cursor-pointer rounded-full bg-[#ff1010] text-[22px] leading-none text-white transition-colors hover:bg-[#F90301] disabled:cursor-not-allowed disabled:opacity-50 max-[1179px]:mt-8 max-[1179px]:w-48"
+                className="mt-auto py-2.5 px-10 cursor-pointer rounded-full bg-[#ff1010] text-[22px] leading-none text-white transition-colors hover:bg-[#F90301] disabled:cursor-not-allowed disabled:opacity-50 max-[1179px]:mt-8 max-[1179px]:w-48"
             >
                 CHECKOUT
-            </button>
+            </Link>
         </div>
     );
 }

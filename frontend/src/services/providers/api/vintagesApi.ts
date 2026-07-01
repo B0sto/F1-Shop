@@ -1,10 +1,10 @@
+import { apiClient } from "@/services/apiClient";
 import type { ApiResponse } from "@/types/ApiResponseType";
 import type { VintageCardType } from "@/types/VintageCardType";
-import axios from "axios";
 
 export const getVintages = async (): Promise<ApiResponse<VintageCardType[]>> => {
     try {
-        const res = await axios.get<ApiResponse<VintageCardType[]>>(`${import.meta.env.VITE_API}/api/vintages`);
+        const res = await apiClient.get<ApiResponse<VintageCardType[]>>("/api/vintages");
         
         return res.data;
     } catch (error) {

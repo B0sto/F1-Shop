@@ -1,6 +1,4 @@
-// import type { ApiResponse } from "@/types/ApiResponseType";
-// import type { DriverCollectionType } from "@/types/DriverCollectionType";
-import axios from "axios"
+import { apiClient } from "@/services/apiClient";
 
 type CollectionParams = {
     page: number;
@@ -13,7 +11,7 @@ export const getCollections = async ({
     limit,
     search = "",
 }: CollectionParams) => {
-    const res = await axios.get(`${import.meta.env.VITE_API}/api/collections`, {
+    const res = await apiClient.get("/api/collections", {
         params: {
             page,
             limit,
