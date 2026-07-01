@@ -1,5 +1,6 @@
 import Cart from "../models/cartModel.js";
 import Order from "../models/orderModel.js";
+import User from "../models/userModel.js";
 
 const SHIPPING_PRICE = 10;
 
@@ -41,6 +42,14 @@ export const checkoutOrder = async (userId, checkoutData) => {
         },
         shipping: SHIPPING_PRICE,
     });
+
+    const itemsTotal = selectedItems.reduce((acc, cur) => acc + cur.totalPrice, 0);
+    const totalOrderCost = itemsTotal + SHIPPING_PRICE;
+
+    await User.findByIdAndUpdate(
+        userId,
+        { $inc: { totalSpent: totalOrderCost } }
+    )
 
     cart.items = cart.items.filter(item => !item.selected);
     await cart.save();
