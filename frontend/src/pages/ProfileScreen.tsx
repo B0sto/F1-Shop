@@ -5,54 +5,54 @@ import ProfileCard from "@/components/sections/Profile/ProfileCard"
 import RecentPurchases from "@/components/sections/Profile/RecentPurchases"
 import type { UserProfile } from "@/types/UserProfileType"
 import type { Purchase } from "@/types/PurchaseType"
+import { useQuery } from "@tanstack/react-query"
+import { recentPurchasesQuery } from "@/services/providers/queries/checkoutQueries"
+import { meQuery } from "@/services/providers/queries/authQueries"
 
-const profile: UserProfile = {
-  username: "Kim44Kardashian",
-  email: "kimkardashian@gmail.com",
-  address: "Los Angeles, California",
-  memberSince: "March 2026",
-  totalSpent: "$500.00",
-  avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=80",
-}
-
-const recentPurchases: Purchase[] = [
-  {
-    id: "#F1-98432",
-    name: "George Russell Graphic Hoodie Black",
-    date: "December 12, 2025",
-    price: "$160.00",
-    status: "Delivered",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=320&q=80",
-  },
-  {
-    id: "#F1-78876",
-    name: "Scuderia Ferrari 2025 Team Lewis Hamilton Cap - White",
-    date: "April 14, 2025",
-    price: "$41.00",
-    status: "Transit",
-    image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=320&q=80",
-  },
-  {
-    id: "#F1-43087",
-    name: "Puma MAPF1 Mercedes AMG Petronas Suede 30802401 Mens Black Sneakers Shoes",
-    date: "January 9, 2026",
-    price: "$80.00",
-    status: "Delivered",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=320&q=80",
-  },
-]
 
 const ProfileScreen = () => {
+  const { data: orders = [] } = useQuery(recentPurchasesQuery)
+  const { data: user } = useQuery(meQuery);
+
+  const profile: UserProfile = {
+    _id: user?.id || "",
+    username: user?.username || "Driver",
+    email: user?.email || "",
+    address: user?.address || "No address provided",
+    memberSince: user?.createdAt
+      ? new Date(user.createdAt).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
+      : "N/A",
+    totalSpent: "$0.00",
+    avatar: user?.avatar || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=80",
+  }
+
+  const purchases: Purchase[] = orders
+    .flatMap((order) =>
+      order.items.map((item) => ({
+        id: `F1-${order._id.slice(0, 5).toUpperCase()}`,
+        name: item.name,
+        date: new Date(order.createdAt).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        }),
+        price: `$${item.totalPrice}.00`,
+        status: "Delivered" as const,
+        image: item.image,
+      }))
+    )
+    .slice(0, 3);
+
+  const totalOrdersCount = orders.length;
+
   return (
     <section className="min-h-full px-4 py-8 font-akshar text-white sm:px-8 sm:py-10 lg:px-12 lg:py-12 xl:px-16 2xl:px-36">
       <div className="mx-auto w-full max-w-350">
         <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="mb-2 text-[12px] uppercase tracking-[0.2em] text-[#F90301] sm:text-[15px] sm:tracking-[0.26em]">
-              LULU SHOP MEMBER
-            </p>
-            <SectionTitle title="Profile" className="text-white" />
-          </div>
+          <SectionTitle title="Profile" className="text-white" />
 
           <button
             type="button"
@@ -63,10 +63,10 @@ const ProfileScreen = () => {
           </button>
         </div>
 
-        <ProfileCard profile={profile} totalOrders={recentPurchases.length} />
+        <ProfileCard profile={profile} totalOrders={totalOrdersCount} />
 
         <div className="mt-6 lg:mt-8">
-          <RecentPurchases purchases={recentPurchases} />
+          <RecentPurchases purchases={purchases} />
         </div>
       </div>
     </section>

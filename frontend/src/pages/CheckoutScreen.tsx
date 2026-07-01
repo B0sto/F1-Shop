@@ -178,8 +178,7 @@ const CheckoutScreen = () => {
                     </form>
                 )}
 
-                {/* ASIDE С СУММОЙ ЗАКАЗА */}
-                <aside className="rounded-lg border border-white/10 bg-[#080808] p-5 sm:p-7 lg:sticky lg:top-6 h-fit">
+                <aside className="h-full rounded-lg border border-white/10 bg-[#080808] p-5 sm:p-7 lg:sticky lg:top-6">
                     <h2 className="text-[26px] leading-none font-light">ORDER SUMMARY</h2>
                     <div className="mt-6 space-y-4 text-[18px]">
                         <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
