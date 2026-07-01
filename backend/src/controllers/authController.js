@@ -80,6 +80,7 @@ export const getMe = async (req, res) => {
                     address: user.address,
                     avatar: user.avatar,
                     createdAt: user.createdAt,
+                    totalSpent: user.totalSpent
                 }
             }
         });
