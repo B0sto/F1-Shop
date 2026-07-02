@@ -1,5 +1,6 @@
 import { apiClient } from "@/services/apiClient";
 import { authToken } from "@/services/authToken";
+import type { UpdateUserType } from "@/types/UpdateUserType";
 
 type AuthUser = {
     id: string;
@@ -8,6 +9,7 @@ type AuthUser = {
     address?: string;
     avatar?: string;
     createdAt: string
+    totalSpent: number;
 }
 
 type AuthResponse = {
@@ -67,4 +69,19 @@ export const getMe = async () => {
     }>('/api/auth/me')
 
     return res.data.data.user
+}
+
+
+export const updateMe = async (userData: UpdateUserType) => {
+    const formData = new FormData();
+
+    if (userData.username) formData.append("username", userData.username);
+    if (userData.email) formData.append("email", userData.email);
+    if (userData.address) formData.append("address", userData.address);
+    if (userData.avatar) formData.append("avatar", userData.avatar);
+
+    const res = await apiClient.put<AuthResponse>('/api/auth/me', formData);
+
+    return res.data.data.user;
+
 }

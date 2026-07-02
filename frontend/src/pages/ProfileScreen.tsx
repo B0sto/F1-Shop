@@ -1,4 +1,5 @@
 import { User } from "lucide-react"
+import { useState } from "react"
 
 import SectionTitle from "@/components/common/SectionTitle"
 import ProfileCard from "@/components/sections/Profile/ProfileCard"
@@ -8,11 +9,13 @@ import type { Purchase } from "@/types/PurchaseType"
 import { useQuery } from "@tanstack/react-query"
 import { recentPurchasesQuery } from "@/services/providers/queries/checkoutQueries"
 import { meQuery } from "@/services/providers/queries/authQueries"
+import EditProfileModal from "@/components/sections/Profile/EditProfileModal"
 
 
 const ProfileScreen = () => {
   const { data: orders = [] } = useQuery(recentPurchasesQuery)
   const { data: user } = useQuery(meQuery);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const profile: UserProfile = {
     _id: user?.id || "",
@@ -25,8 +28,8 @@ const ProfileScreen = () => {
         year: "numeric",
       })
       : "N/A",
-    totalSpent: "$0.00",
-    avatar: user?.avatar || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=80",
+    totalSpent: user?.totalSpent ?? 0,
+    avatar: user?.avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=F90301&color=fff&size=256`
   }
 
   const purchases: Purchase[] = orders
@@ -56,6 +59,7 @@ const ProfileScreen = () => {
 
           <button
             type="button"
+            onClick={() => setIsEditModalOpen(true)}
             className="inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-white px-4 text-[16px] text-black transition-colors duration-300 hover:bg-[#F90301] hover:text-white sm:w-fit"
           >
             <User className="size-4" />
@@ -69,8 +73,16 @@ const ProfileScreen = () => {
           <RecentPurchases purchases={purchases} />
         </div>
       </div>
+
+      <EditProfileModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        profile={profile}
+      />
     </section>
   )
 }
 
 export default ProfileScreen
+
+
