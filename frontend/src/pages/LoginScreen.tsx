@@ -95,7 +95,17 @@ const LoginScreen = () => {
           )}
         </div>
 
-        <button className="mb-7 min-h-10 w-full cursor-pointer rounded-lg bg-[#F90301] py-1.5 text-[16px] text-white transition-all duration-300 hover:bg-[#aa0303]" type="submit" disabled={isSubmitting}>{isSubmitting ? "Loading..." : "LOG IN"}</button>
+        <button className="mb-5 min-h-10 w-full cursor-pointer rounded-lg bg-[#F90301] py-1.5 text-[16px] text-white transition-all duration-300 hover:bg-[#aa0303]" type="submit" disabled={isSubmitting}>{isSubmitting ? "Loading..." : "LOG IN"}</button>
+
+        <div className="mb-7 text-center text-sm text-white">
+          Don't have an account?{" "}
+          <Link
+            to="/register"
+            className="text-[#F90301] hover:underline"
+          >
+            Register
+          </Link>
+        </div>
 
         {errors.root && (
           <p className="text-sm leading-tight text-red-500">{errors.root.message}</p>
