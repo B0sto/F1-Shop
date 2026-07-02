@@ -1,5 +1,7 @@
 import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../services/authService.js"
 import User from "../models/userModel.js";
+import { uploadToS3, deleteFromS3 } from "../services/s3Service.js";
+
 
 const refreshCookieOptions = {
     httpOnly: true,
@@ -91,6 +93,59 @@ export const getMe = async (req, res) => {
         })
     }
 }
+
+export const updateMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+
+        const { username, email, address } = req.body;
+
+        if (username) user.username = username;
+        if (email) user.email = email;
+        if (address !== undefined) user.address = address;
+
+        if (req.file) {
+            if (user.avatar) {
+                await deleteFromS3(user.avatar)
+            }
+
+            const avatarUrl = await uploadToS3(req.file.buffer, req.file.mimetype, req.userId);
+            user.avatar = avatarUrl;
+        }
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            data: {
+                user: {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email,
+                    address: user.address,
+                    createdAt: user.createdAt,
+                    totalSpent: user.totalSpent,
+                    avatar: user.avatar,
+                }
+            }
+        })
+    }
+    catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
 
 
 export const refresh = async (req, res) => {
