@@ -13,7 +13,7 @@ const SpecialDiscountCard = (
     const [selectedSize, setSelectedSize] = useState<string | number>(sizes[0] ?? "One Size");
 
     return (
-        <div className="relative flex min-h-95 w-full max-w-82 flex-col items-center border border-white px-5 pb-2 pt-4 font-akshar text-center sm:max-w-78 lg:max-w-82">
+        <div className="relative flex min-h-95 w-full max-w-82 flex-col items-center border border-white px-5 pb-2 pt-4 font-akshar text-center sm:max-w-78 lg:max-w-82 hover:bg-[#898484] transition-all duration-300">
             <span className="absolute top-1 left-2 text-[#ED1E1E]">-{discount}%</span>
             <div className="flex h-43 w-full items-center justify-center">
                 <img src={imgSrc} alt={name} loading="lazy" className="max-h-full max-w-full object-contain" />

@@ -15,7 +15,7 @@ const schema = z.object({
         .trim()
         .min(3, "Username most contain at least 3 letters"),
 
-     email: z
+    email: z
         .string()
         .trim()
         .min(1, "Email is required")
@@ -44,7 +44,7 @@ const RegisterScreen = () => {
         resolver: zodResolver(schema)
     })
 
-    
+
     const onSubmit: SubmitHandler<formFields> = async (data) => {
         try {
             const user = await registerUser(data)
@@ -57,7 +57,7 @@ const RegisterScreen = () => {
 
         } catch (error) {
             const message = axios.isAxiosError<{ message?: string }>(error)
-            ? error.response?.data.message ?? "Unable to Register" : "Unable to Register";
+                ? error.response?.data.message ?? "Unable to Register" : "Unable to Register";
             setError("root", {
                 type: "server",
                 message
@@ -81,7 +81,7 @@ const RegisterScreen = () => {
                 <div className="flex flex-col gap-y-2.5 mb-4.75">
                     <label htmlFor="username" className="text-white text-[16px]">USERNAME</label>
                     <input
-                    {...register("username")}
+                        {...register("username")}
                         type="text"
                         id="username"
                         className="min-h-10 rounded-sm bg-[#D9D9D9] px-2 py-1"
@@ -94,7 +94,7 @@ const RegisterScreen = () => {
                 <div className="flex flex-col gap-y-2.5 mb-4.75">
                     <label htmlFor="email" className="text-white text-[16px]">EMAIL</label>
                     <input
-                    {...register("email")}
+                        {...register("email")}
                         type="email"
                         id="email"
                         className="min-h-10 rounded-sm bg-[#D9D9D9] px-2 py-1"
@@ -107,7 +107,7 @@ const RegisterScreen = () => {
                 <div className="flex flex-col gap-y-2.5 mb-4.75">
                     <label htmlFor="password" className="text-white text-[16px]">PASSWORD</label>
                     <input
-                    {...register("password")}
+                        {...register("password")}
                         type="password"
                         id="password"
                         className="min-h-10 rounded-sm bg-[#D9D9D9] px-2 py-1"
@@ -120,7 +120,7 @@ const RegisterScreen = () => {
                 <div className="flex flex-col gap-y-2.5 mb-7.75">
                     <label htmlFor="address" className="text-white text-[16px]">ADDRESS</label>
                     <input
-                    {...register("address")}
+                        {...register("address")}
                         type="text"
                         id="address"
                         className="min-h-10 rounded-sm bg-[#D9D9D9] px-2 py-1"
@@ -131,6 +131,16 @@ const RegisterScreen = () => {
                 </div>
 
                 <button className="mb-7 min-h-10 w-full cursor-pointer rounded-lg bg-[#F90301] py-1.5 text-[16px] text-white transition-all duration-300 hover:bg-[#aa0303]" type="submit" disabled={isSubmitting}>{isSubmitting ? "Loading..." : "REGISTER"}</button>
+
+                <div className="mb-7 text-center text-sm text-white">
+                    Already have an account? {" "}
+                    <Link
+                        to="/login"
+                        className="text-[#F90301] hover:underline"
+                    >
+                        Log in
+                    </Link>
+                </div>
 
                 {errors.root && (
                     <p className="text-sm leading-tight text-red-500">{errors.root.message}</p>
