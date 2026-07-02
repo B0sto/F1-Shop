@@ -24,7 +24,7 @@ createRoot(document.getElementById('root')!).render(
       <AuthInitializer>
         <RouterProvider router={router} />
         <Toaster
-          position="top-center"
+          position="bottom-right"
           toastOptions={{
             style: {
               background: "#110D0D",
