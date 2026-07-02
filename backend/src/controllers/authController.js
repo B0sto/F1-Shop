@@ -116,7 +116,7 @@ export const updateMe = async (req, res) => {
                 await deleteFromS3(user.avatar)
             }
 
-            const avatarUrl = await uploadToS3(req.file.buffer, req.file.mimetype, req.userId);
+            const avatarUrl = await uploadToS3(req.file.buffer, req.file.mimetype, `${req.userId}-${Date.now()}`);
             user.avatar = avatarUrl;
         }
 

@@ -24,9 +24,6 @@ const ProfileCard = ({ profile, totalOrders }: ProfileCardProps) => {
           />
 
           <div className="min-w-0">
-            <p className="text-[13px] uppercase tracking-[0.18em] text-[#747474] sm:text-[15px] sm:tracking-[0.22em]">
-              Driver ID
-            </p>
             <h1 className="mt-2 wrap-break-word text-4xl leading-none sm:text-5xl lg:text-[56px]">
               {profile.username}
             </h1>

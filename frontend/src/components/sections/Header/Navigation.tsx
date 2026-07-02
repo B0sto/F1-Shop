@@ -3,13 +3,13 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { meQuery } from "@/services/providers/queries/authQueries";
 import { logout } from "@/services/providers/api/authApi";
-import LogoutConfirmationModal from "@/components/common/LogoutConfirmationModal";
 import type {
     NavigationAction,
     NavigationItemsType
 } from "../../../types/NavigationItemType";
 import BurgerMenu from "./BurgerMenu";
 import NavItem from "./NavItem";
+import { Modal } from "@/components/common/Modal";
 
 const navigationItems: NavigationItemsType[] = [
     {
@@ -159,11 +159,35 @@ const Navigation = () => {
                 ))}
             </div>
 
-            <LogoutConfirmationModal
+            <Modal
                 isOpen={isLogoutModalOpen}
-                onCancel={() => setIsLogoutModalOpen(false)}
-                onConfirm={confirmLogout}
-            />
+                onClose={() => setIsLogoutModalOpen(false)}
+                title="Log out?"
+                size="sm"
+                footer={
+                    <>
+                        <button
+                            type="button"
+                            className="cursor-pointer rounded-lg border border-white px-6 py-2 font-akshar text-white transition-colors duration-300 hover:bg-white hover:text-black"
+                            onClick={() => setIsLogoutModalOpen(false)}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            className="cursor-pointer rounded-lg bg-[#F90301] px-6 py-2 font-akshar text-white transition-colors duration-300 hover:bg-[#aa0303]"
+                            onClick={confirmLogout}
+                        >
+                            Log out
+                        </button>
+                    </>
+                }
+            >
+                <p className="font-akshar text-lg text-white">
+                    Are you sure you want to log out of your account?
+                </p>
+            </Modal>
+
         </>
     );
 };
