@@ -4,8 +4,9 @@ import {login} from "@/services/providers/api/authApi";
 import {useQueryClient} from "@tanstack/react-query";
 import {Link, useNavigate} from "@tanstack/react-router";
 import axios from "axios";
-import {ArrowLeft} from "lucide-react";
+import {ArrowLeft, Eye, EyeOff} from "lucide-react";
 import {useForm, type SubmitHandler} from "react-hook-form";
+import {useState} from "react";
 
 type FormFields = {
     email: string;
@@ -15,6 +16,7 @@ type FormFields = {
 const LoginScreen = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
 
     const {
         register,
@@ -79,7 +81,7 @@ const LoginScreen = () => {
                     />
                 </div>
 
-                <div className="mb-7.75 flex flex-col gap-y-2.5">
+                <div className="mb-7.75 flex flex-col gap-y-2.5 relative">
                     <label htmlFor="password" className="text-[16px] text-white">
                         PASSWORD
                     </label>
@@ -87,9 +89,17 @@ const LoginScreen = () => {
                     <input
                         {...register("password")}
                         id="password"
-                        type="password"
-                        className="min-h-10 rounded-sm bg-[#D9D9D9] px-2 py-1"
+                        type={showPassword ? "text" : "password"}
+                        className="min-h-10 rounded-sm bg-[#D9D9D9] px-2 py-1 pr-11"
                     />
+
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute right-3 top-11.5 text-gray-600"
+                    >
+                        {showPassword ? <EyeOff size={18}/> : <Eye size={18}/>}
+                    </button>
                 </div>
 
                 <button
