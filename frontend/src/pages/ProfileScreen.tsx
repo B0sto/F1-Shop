@@ -140,7 +140,6 @@ const ProfileScreen = () => {
                     </div>
                 }
             >
-                {/* optional body content */}
                 <p className="text-sm text-gray-300">
                     Are you sure you want to permanently delete your account?
                 </p>

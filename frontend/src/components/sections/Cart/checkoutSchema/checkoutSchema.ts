@@ -1,37 +1,42 @@
 import { z } from "zod";
 
+const isNotExpired = (value: string) => {
+    const match = value.match(/^(\d{2})\/(\d{2})$/);
+    if (!match) return false;
+
+    const month = Number(match[1]);
+    const year = Number(`20${match[2]}`);
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+
+    if (year < currentYear) return false;
+    if (year === currentYear && month < currentMonth) return false;
+
+    return true;
+};
+
 export const detailsSchema = z.object({
-    fullName: z
-        .string()
-        .min(3, "Full name must be at least 3 characters")
-        .max(50, "Full name is too long")
-        .regex(/^[a-zA-Zა-ჰ\s]+$/, "Only letters are allowed"),
-    phone: z
-        .string()
-        .regex(/^\+?[0-9\s()-]{9,20}$/, "Invalid phone number"),
-    email: z
-        .email("Invalid email address"),
-    location: z
-        .string()
-        .min(3, "Location is required")
-        .max(100, "Location is too long"),
     cardNumber: z
         .string()
-        .transform((value) => value.replace(/\s/g, ""))
-        .refine((value) => /^\d{16}$/.test(value), "Card number must contain 16 digits"),
+        .min(1, "Card number is required")
+        .regex(/^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/, "Invalid card number"),
     cvv: z
         .string()
-        .regex(/^\d{3}$/, "CVV must be 3 digits"),
+        .regex(/^\d{3}$/, "Invalid CVV"),
     expirationDate: z
         .string()
-        .regex(/^(0[1-9]|1[0-2])\s?\/\s?\d{2}$/, "Expiration date must be MM / YY"),
+        .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Format must be MM/YY")
+        .refine(isNotExpired, "Card has expired"),
 });
+
+export type DetailsForm = z.infer<typeof detailsSchema>;
 
 export const verificationSchema = z.object({
     verificationCode: z
         .string()
-        .regex(/^\d{5}$/, "Verification code must be 5 digits"),
+        .regex(/^\d{5}$/, "Enter the 5-digit code"),
 });
 
-export type DetailsForm = z.infer<typeof detailsSchema>;
 export type VerificationForm = z.infer<typeof verificationSchema>;

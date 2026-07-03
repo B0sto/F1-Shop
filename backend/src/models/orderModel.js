@@ -45,35 +45,6 @@ const orderItemSchema = new mongoose.Schema(
     }
 );
 
-const customerSchema = new mongoose.Schema(
-    {
-        fullName: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        phone: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        email: {
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true,
-        },
-        location: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-    },
-    {
-        _id: false,
-    }
-);
-
 const paymentSchema = new mongoose.Schema(
     {
         cardLast4: {
@@ -81,6 +52,10 @@ const paymentSchema = new mongoose.Schema(
             required: true,
             minlength: 4,
             maxlength: 4,
+        },
+        expirationDate: {
+            type: String,
+            required: true,
         },
     },
     {
@@ -103,10 +78,6 @@ const orderSchema = new mongoose.Schema(
                 validator: (items) => items.length > 0,
                 message: "Order must contain at least one item",
             },
-        },
-        customer: {
-            type: customerSchema,
-            required: true,
         },
         payment: {
             type: paymentSchema,
