@@ -21,7 +21,7 @@ export const detailsSchema = z.object({
         .refine((value) => /^\d{16}$/.test(value), "Card number must contain 16 digits"),
     cvv: z
         .string()
-        .regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
+        .regex(/^\d{3}$/, "CVV must be 3 digits"),
     expirationDate: z
         .string()
         .regex(/^(0[1-9]|1[0-2])\s?\/\s?\d{2}$/, "Expiration date must be MM / YY"),
