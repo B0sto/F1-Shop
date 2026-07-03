@@ -1,6 +1,7 @@
 // frontend/src/hooks/useAddToCart.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import axios from "axios";
 
 import { addCartItem } from "@/services/providers/api/cartApi";
 import { meQuery } from "@/services/providers/queries/authQueries";
@@ -27,8 +28,12 @@ export const useAddToCart = () => {
             queryClient.invalidateQueries({ queryKey: ["cart"] });
         },
 
-        onError: () => {
-            toast.error("Failed to add to cart");
+        onError: (error) => {
+            const message = axios.isAxiosError<{ message?: string }>(error)
+                ? error.response?.data.message ?? "Failed to add to cart"
+                : "Failed to add to cart";
+
+            toast.error(message);
         },
     });
 
