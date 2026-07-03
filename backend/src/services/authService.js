@@ -178,7 +178,7 @@ export const logoutUser = async (refreshToken) => {
         });
 
         for (const storedToken of storedTokens) {
-            const isMatch = await bcrypt.compare(refreshToken. storedTokens.tokenHash);
+            const isMatch = await bcrypt.compare(refreshToken,  storedTokens.tokenHash);
 
             if (isMatch) {
                 await RefreshToken.findByIdAndDelete(storedToken._id);

@@ -5,18 +5,21 @@ import Order from "../models/orderModel.js";
 import { uploadToS3, deleteFromS3 } from "../services/s3Service.js";
 import RefreshToken from "../models/refreshTokenModel.js";
 
+const isProduction = process.env.NODE_ENV === "production";
 
 const refreshCookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "None",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    path: "/",
     maxAge: 7 * 24 * 60 * 60 * 1000
 }
 
 const clearRefreshCookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: 'None'
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    path: "/",
 }
 
 export const register = async (req, res) => {
@@ -44,6 +47,10 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const { user, accessToken, refreshToken } = await loginUser(req.body);
+        console.log("user", user)
+        console.log("accessToken", accessToken)
+        console.log("refreshToken", refreshToken)
+
 
         res.cookie("refreshToken", refreshToken, refreshCookieOptions);
 
