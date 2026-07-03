@@ -1,6 +1,8 @@
 // frontend/src/hooks/useAddToCart.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import axios from "axios";
 
 import { addCartItem } from "@/services/providers/api/cartApi";
 import { meQuery } from "@/services/providers/queries/authQueries";
@@ -17,18 +19,28 @@ type AddToCartInput = {
 
 export const useAddToCart = () => {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const { data: user } = useQuery(meQuery);
 
     const { mutate, isPending } = useMutation({
         mutationFn: addCartItem,
 
         onSuccess: () => {
-            toast.success("Added to cart");
+            toast.success("Added to cart", {
+                action: {
+                    label: "View cart",
+                    onClick: () => navigate({ to: "/cart" }),
+                },
+            });
             queryClient.invalidateQueries({ queryKey: ["cart"] });
         },
 
-        onError: () => {
-            toast.error("Failed to add to cart");
+        onError: (error) => {
+            const message = axios.isAxiosError<{ message?: string }>(error)
+                ? error.response?.data.message ?? "Failed to add to cart"
+                : "Failed to add to cart";
+
+            toast.error(message);
         },
     });
 

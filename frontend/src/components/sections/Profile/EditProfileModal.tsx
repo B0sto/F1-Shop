@@ -85,11 +85,25 @@ const EditProfileModal = ({ isOpen, onClose, profile }: EditProfileModalProps) =
     })
 
     const onSubmit = (data: FormFields) => {
-        const { username, email, address } = data;
+        const nextUsername = data.username.trim();
+        const nextEmail = data.email.trim();
+        const nextAddress = data.address.trim();
+
+        const hasProfileChanges =
+            nextUsername !== username ||
+            nextEmail !== email ||
+            nextAddress !== address ||
+            avatarFile !== null;
+
+        if (!hasProfileChanges) {
+            onClose();
+            return;
+        }
+
         updateMutation.mutate({
-            username,
-            email,
-            address,
+            username: nextUsername,
+            email: nextEmail,
+            address: nextAddress,
             avatar: avatarFile ?? undefined
         })
     }

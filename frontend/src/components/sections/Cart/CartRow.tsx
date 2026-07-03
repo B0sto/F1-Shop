@@ -1,6 +1,7 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import axios from "axios";
 
 import SizeSelector from "@/components/common/SizeSelector";
 import { deleteCartItem, updateCartItem, type UpdateCartItemPayload } from "@/services/providers/api/cartApi";
@@ -24,6 +25,7 @@ const CartRow = ({ item }: CartRowProps) => {
     const queryClient = useQueryClient();
     const itemSizes = item.sizes ?? [];
     const hasSizeOptions = itemSizes.length > 1;
+    const maxQuantity = 15;
 
     const { mutate: removeItem, isPending: isRemoving } = useMutation({
         mutationFn: deleteCartItem,
@@ -41,8 +43,12 @@ const CartRow = ({ item }: CartRowProps) => {
         onSuccess: (cart) => {
             queryClient.setQueryData(cartQuery.queryKey, cart);
         },
-        onError: () => {
-            toast.error("Failed to update cart item");
+        onError: (error) => {
+            const message = axios.isAxiosError<{ message?: string }>(error)
+                ? error.response?.data.message ?? "Failed to update cart item"
+                : "Failed to update cart item";
+
+            toast.error(message);
         },
     });
 
@@ -53,6 +59,11 @@ const CartRow = ({ item }: CartRowProps) => {
     };
 
     const handleIncrease = () => {
+        if (item.quantity >= maxQuantity) {
+            toast.error("You can buy max 15 of each product");
+            return;
+        }
+
         updateItem({ quantity: item.quantity + 1 });
     };
 

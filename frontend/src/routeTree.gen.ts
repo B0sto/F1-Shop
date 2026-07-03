@@ -17,6 +17,10 @@ import { Route as MainProfileRouteImport } from './routes/_main.profile'
 import { Route as MainHomeRouteImport } from './routes/_main.home'
 import { Route as MainCheckoutRouteImport } from './routes/_main.checkout'
 import { Route as MainCartRouteImport } from './routes/_main.cart'
+import { Route as MainProfileIndexRouteImport } from './routes/_main.profile.index'
+import { Route as MainProfileOrdersRouteImport } from './routes/_main.profile.orders'
+import { Route as MainProfileOrdersIndexRouteImport } from './routes/_main.profile.orders.index'
+import { Route as MainProfileOrdersOrderIdRouteImport } from './routes/_main.profile.orders.$orderId'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -57,6 +61,27 @@ const MainCartRoute = MainCartRouteImport.update({
   path: '/cart',
   getParentRoute: () => MainRoute,
 } as any)
+const MainProfileIndexRoute = MainProfileIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MainProfileRoute,
+} as any)
+const MainProfileOrdersRoute = MainProfileOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => MainProfileRoute,
+} as any)
+const MainProfileOrdersIndexRoute = MainProfileOrdersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MainProfileOrdersRoute,
+} as any)
+const MainProfileOrdersOrderIdRoute =
+  MainProfileOrdersOrderIdRouteImport.update({
+    id: '/$orderId',
+    path: '/$orderId',
+    getParentRoute: () => MainProfileOrdersRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -65,7 +90,11 @@ export interface FileRoutesByFullPath {
   '/cart': typeof MainCartRoute
   '/checkout': typeof MainCheckoutRoute
   '/home': typeof MainHomeRoute
-  '/profile': typeof MainProfileRoute
+  '/profile': typeof MainProfileRouteWithChildren
+  '/profile/orders': typeof MainProfileOrdersRouteWithChildren
+  '/profile/': typeof MainProfileIndexRoute
+  '/profile/orders/$orderId': typeof MainProfileOrdersOrderIdRoute
+  '/profile/orders/': typeof MainProfileOrdersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -74,7 +103,9 @@ export interface FileRoutesByTo {
   '/cart': typeof MainCartRoute
   '/checkout': typeof MainCheckoutRoute
   '/home': typeof MainHomeRoute
-  '/profile': typeof MainProfileRoute
+  '/profile': typeof MainProfileIndexRoute
+  '/profile/orders/$orderId': typeof MainProfileOrdersOrderIdRoute
+  '/profile/orders': typeof MainProfileOrdersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,7 +116,11 @@ export interface FileRoutesById {
   '/_main/cart': typeof MainCartRoute
   '/_main/checkout': typeof MainCheckoutRoute
   '/_main/home': typeof MainHomeRoute
-  '/_main/profile': typeof MainProfileRoute
+  '/_main/profile': typeof MainProfileRouteWithChildren
+  '/_main/profile/orders': typeof MainProfileOrdersRouteWithChildren
+  '/_main/profile/': typeof MainProfileIndexRoute
+  '/_main/profile/orders/$orderId': typeof MainProfileOrdersOrderIdRoute
+  '/_main/profile/orders/': typeof MainProfileOrdersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,6 +132,10 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/home'
     | '/profile'
+    | '/profile/orders'
+    | '/profile/'
+    | '/profile/orders/$orderId'
+    | '/profile/orders/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -106,6 +145,8 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/home'
     | '/profile'
+    | '/profile/orders/$orderId'
+    | '/profile/orders'
   id:
     | '__root__'
     | '/'
@@ -116,6 +157,10 @@ export interface FileRouteTypes {
     | '/_main/checkout'
     | '/_main/home'
     | '/_main/profile'
+    | '/_main/profile/orders'
+    | '/_main/profile/'
+    | '/_main/profile/orders/$orderId'
+    | '/_main/profile/orders/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -183,21 +228,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainCartRouteImport
       parentRoute: typeof MainRoute
     }
+    '/_main/profile/': {
+      id: '/_main/profile/'
+      path: '/'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof MainProfileIndexRouteImport
+      parentRoute: typeof MainProfileRoute
+    }
+    '/_main/profile/orders': {
+      id: '/_main/profile/orders'
+      path: '/orders'
+      fullPath: '/profile/orders'
+      preLoaderRoute: typeof MainProfileOrdersRouteImport
+      parentRoute: typeof MainProfileRoute
+    }
+    '/_main/profile/orders/': {
+      id: '/_main/profile/orders/'
+      path: '/'
+      fullPath: '/profile/orders/'
+      preLoaderRoute: typeof MainProfileOrdersIndexRouteImport
+      parentRoute: typeof MainProfileOrdersRoute
+    }
+    '/_main/profile/orders/$orderId': {
+      id: '/_main/profile/orders/$orderId'
+      path: '/$orderId'
+      fullPath: '/profile/orders/$orderId'
+      preLoaderRoute: typeof MainProfileOrdersOrderIdRouteImport
+      parentRoute: typeof MainProfileOrdersRoute
+    }
   }
 }
+
+interface MainProfileOrdersRouteChildren {
+  MainProfileOrdersOrderIdRoute: typeof MainProfileOrdersOrderIdRoute
+  MainProfileOrdersIndexRoute: typeof MainProfileOrdersIndexRoute
+}
+
+const MainProfileOrdersRouteChildren: MainProfileOrdersRouteChildren = {
+  MainProfileOrdersOrderIdRoute: MainProfileOrdersOrderIdRoute,
+  MainProfileOrdersIndexRoute: MainProfileOrdersIndexRoute,
+}
+
+const MainProfileOrdersRouteWithChildren =
+  MainProfileOrdersRoute._addFileChildren(MainProfileOrdersRouteChildren)
+
+interface MainProfileRouteChildren {
+  MainProfileOrdersRoute: typeof MainProfileOrdersRouteWithChildren
+  MainProfileIndexRoute: typeof MainProfileIndexRoute
+}
+
+const MainProfileRouteChildren: MainProfileRouteChildren = {
+  MainProfileOrdersRoute: MainProfileOrdersRouteWithChildren,
+  MainProfileIndexRoute: MainProfileIndexRoute,
+}
+
+const MainProfileRouteWithChildren = MainProfileRoute._addFileChildren(
+  MainProfileRouteChildren,
+)
 
 interface MainRouteChildren {
   MainCartRoute: typeof MainCartRoute
   MainCheckoutRoute: typeof MainCheckoutRoute
   MainHomeRoute: typeof MainHomeRoute
-  MainProfileRoute: typeof MainProfileRoute
+  MainProfileRoute: typeof MainProfileRouteWithChildren
 }
 
 const MainRouteChildren: MainRouteChildren = {
   MainCartRoute: MainCartRoute,
   MainCheckoutRoute: MainCheckoutRoute,
   MainHomeRoute: MainHomeRoute,
-  MainProfileRoute: MainProfileRoute,
+  MainProfileRoute: MainProfileRouteWithChildren,
 }
 
 const MainRouteWithChildren = MainRoute._addFileChildren(MainRouteChildren)

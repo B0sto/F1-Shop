@@ -60,6 +60,8 @@ const ProfileScreen = () => {
         .flatMap((order) =>
             order.items.map((item) => ({
                 id: `F1-${order._id.slice(0, 5).toUpperCase()}`,
+                key: `${order._id}-${item.productId}`,
+                orderId: order._id,
                 name: item.name,
                 date: new Date(order.createdAt).toLocaleDateString("en-US", {
                     month: "long",
@@ -140,7 +142,6 @@ const ProfileScreen = () => {
                     </div>
                 }
             >
-                {/* optional body content */}
                 <p className="text-sm text-gray-300">
                     Are you sure you want to permanently delete your account?
                 </p>

@@ -16,12 +16,31 @@ export const getCollections = async (req, res) => {
         const limit = Number(req.query.limit ?? 3);
         const search = req.query.search ?? "";
 
-        
-        const result = await getAllCollections({ page, limit, search });
+        let drivers = [];
+        if (req.query.drivers) {
+            if (Array.isArray(req.query.drivers)) {
+                drivers = req.query.drivers;
+            } else {
+                drivers = req.query.drivers.split(",").map(d => d.trim()).filter(Boolean);
+            }
+        }
+
+        const minPrice = req.query.minPrice ? Number(req.query.minPrice) : null;
+        const maxPrice = req.query.maxPrice ? Number(req.query.maxPrice) : null;
+
+        const result = await getAllCollections({
+            page,
+            limit,
+            search,
+            drivers,
+            minPrice,
+            maxPrice,
+        });
 
         res.status(200).json({
             success: true,
             data: result.collections,
+            allDrivers: result.allDrivers,
             pagination: result.pagination
         });
     } catch (error) {

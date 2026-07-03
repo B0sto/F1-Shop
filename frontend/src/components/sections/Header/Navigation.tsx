@@ -99,9 +99,17 @@ const Navigation = () => {
         }
 
         if (action === "scrollTo") {
-            return;
+            const isHome = location.pathname === "/home" || location.pathname === "/";
+
+            if (isHome) {
+                document.getElementById("collections")?.scrollIntoView({ behavior: "smooth" });
+            } else {
+                sessionStorage.setItem("scrollToCollections", "true");
+                navigate({ to: "/home" });
+            }
         }
     };
+
 
     const mainItems = user && cartItem
         ? [...commonItems, cartItem]

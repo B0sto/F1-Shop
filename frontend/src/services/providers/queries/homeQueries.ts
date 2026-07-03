@@ -10,14 +10,23 @@ export const teamsQuery = queryOptions({
   queryFn: getTeams,
 })
 
-export const collectionsQuery = (page: number, search: string) =>
+export const collectionsQuery = (
+  page: number,
+  search: string,
+  drivers?: string[],
+  minPrice?: number,
+  maxPrice?: number
+) =>
   queryOptions({
-    queryKey: ["collections", page, search],
+    queryKey: ["collections", page, search, drivers, minPrice, maxPrice],
     queryFn: () =>
       getCollections({
         page,
         limit: 3,
         search,
+        drivers,
+        minPrice,
+        maxPrice,
       }),
       placeholderData: keepPreviousData
   });

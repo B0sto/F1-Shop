@@ -1,7 +1,7 @@
 import type { Purchase, PurchaseStatus } from "@/types/PurchaseType"
 import { ArrowRight, PackageCheck, Truck } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-
+import { Link } from "@tanstack/react-router"
 
 type PurchaseItemProps = {
   purchase: Purchase
@@ -49,13 +49,14 @@ const PurchaseItem = ({ purchase }: PurchaseItemProps) => {
       </div>
 
       <div className="col-span-2 flex sm:col-span-1 sm:col-start-2 xl:col-start-auto">
-        <button
-          type="button"
+        <Link
+          to="/profile/orders/$orderId"
+          params={{ orderId: purchase.orderId }}
           className="inline-flex h-9 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#F90301] px-4 text-[15px] leading-none transition-colors duration-300 hover:bg-[#aa0303] sm:w-fit"
         >
           Details
           <ArrowRight className="size-4" />
-        </button>
+        </Link>
       </div>
     </article>
   )
