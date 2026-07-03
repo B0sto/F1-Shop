@@ -1,6 +1,9 @@
 import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../services/authService.js"
 import User from "../models/userModel.js";
+import Cart from "../models/cartModel.js"
+import Order from "../models/orderModel.js";
 import { uploadToS3, deleteFromS3 } from "../services/s3Service.js";
+import RefreshToken from "../models/refreshTokenModel.js";
 
 
 const refreshCookieOptions = {
@@ -139,6 +142,45 @@ export const updateMe = async (req, res) => {
     }
     catch (error) {
         res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
+export const deleteMe = async (req, res) => {
+    try {
+        const userId = req.userId;
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+
+        if (user.avatar) {
+            await deleteFromS3(user.avatar);
+        }
+
+        await Promise.all([
+            Cart.deleteOne({ user: userId }),
+            Order.deleteMany({ user: userId }),
+            RefreshToken.deleteMany({ user: userId }),
+            User.findByIdAndDelete(userId)
+        ])
+
+        res.clearCookie("refreshToken", clearRefreshCookieOptions);
+
+        return res.status(200).json({
+            success: true,
+            data: "User deleted successfully",
+        })
+    }catch (error) {
+        res.status(500).json({
             success: false,
             message: error.message
         })
