@@ -1,43 +1,69 @@
 import collectionModel from "../models/collectionModel.js"
 
 
-export const getAllCollections = async ({page = 1, limit = 3, search = ""} = {}) => {
-
+export const getAllCollections = async ({
+    page = 1,
+    limit = 3,
+    search = "",
+    drivers = [],
+    minPrice = null,
+    maxPrice = null
+} = {}) => {
     const collections = await collectionModel.find();
+
+    const allDrivers = [...new Set(collections.map(c => c.driver.name))].sort();
+
+    let filtered = collections;
+    if (drivers && drivers.length > 0) {
+        filtered = filtered.filter(item => drivers.includes(item.driver.name));
+    }
+
+    if (minPrice !== null || maxPrice !== null) {
+        filtered = filtered.map(item => {
+            const obj = item.toObject();
+            obj.products = obj.products.filter(p => {
+                const price = p.price;
+                const matchesMin = minPrice === null || price >= minPrice;
+                const matchesMax = maxPrice === null || price <= maxPrice;
+                return matchesMin && matchesMax;
+            });
+            return obj;
+        }).filter(item => item.products.length > 0);
+    } else {
+        filtered = filtered.map(item => item.toObject());
+    }
 
     const getScore = (item, query) => {
         const q = query.toLowerCase();
-
         const name = item?.driver?.name?.toLowerCase() || "";
-
         let score = 0;
-
         if (name === q) score += 100;
         if (name.startsWith(q)) score += 80;
         if (name.includes(q)) score += 50;
-
         return score;
     };
 
-    let result;
-
     if (search.trim()) {
-        result = collections
+        filtered = filtered
             .map(item => ({
-                ...item.toObject(), score: getScore(item, search)
+                ...item,
+                score: getScore(item, search)
             }))
             .filter(item => item.score > 0)
             .sort((a, b) => b.score - a.score);
-    } else {
-        result = collections.map(item => item.toObject());
     }
 
     const skip = (page - 1) * limit;
-    const paginated = result.slice(skip, skip + limit);
+    const paginated = filtered.slice(skip, skip + limit);
 
     return {
-        collections: paginated, pagination: {
-            page, limit, totalItems: result.length, totalPages: Math.ceil(result.length / limit)
+        collections: paginated,
+        allDrivers,
+        pagination: {
+            page,
+            limit,
+            totalItems: filtered.length,
+            totalPages: Math.ceil(filtered.length / limit)
         }
     };
 };
