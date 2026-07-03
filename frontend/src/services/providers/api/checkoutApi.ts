@@ -14,6 +14,8 @@ export type OrderCustomer = Omit<CheckoutType, "cardNumber">;
 
 export type OrderPayment = {
   cardLast4: string;
+  expirationDate: string;
+  
 };
 
 export type CheckoutResult = {
