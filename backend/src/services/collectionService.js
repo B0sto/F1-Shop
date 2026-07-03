@@ -1,32 +1,46 @@
 import collectionModel from "../models/collectionModel.js"
 
 
-export const getAllCollections = async ({ page = 1, limit = 3, search="" } = {}) => {
+export const getAllCollections = async ({page = 1, limit = 3, search = ""} = {}) => {
+
+    const collections = await collectionModel.find();
+
+    const getScore = (item, query) => {
+        const q = query.toLowerCase();
+
+        const name = item?.driver?.name?.toLowerCase() || "";
+
+        let score = 0;
+
+        if (name === q) score += 100;
+        if (name.startsWith(q)) score += 80;
+        if (name.includes(q)) score += 50;
+
+        return score;
+    };
+
+    let result;
+
+    if (search.trim()) {
+        result = collections
+            .map(item => ({
+                ...item.toObject(), score: getScore(item, search)
+            }))
+            .filter(item => item.score > 0)
+            .sort((a, b) => b.score - a.score);
+    } else {
+        result = collections.map(item => item.toObject());
+    }
+
     const skip = (page - 1) * limit;
-
-    const filter = search ? { "driver.name": { $regex: search, $options: "i" } } : {};
-
-    const [collections, totalItems] = await Promise.all([
-        collectionModel
-        .find(filter)
-        .sort({ createdAt: 1, _id: 1 })
-        .skip(skip)
-        .limit(limit),
-
-        collectionModel.countDocuments(filter)
-    ])
+    const paginated = result.slice(skip, skip + limit);
 
     return {
-        collections,
-        pagination: {
-            page,
-            limit,
-            totalItems,
-            totalPages: Math.ceil(totalItems / limit)
+        collections: paginated, pagination: {
+            page, limit, totalItems: result.length, totalPages: Math.ceil(result.length / limit)
         }
-    }
-    
-}
+    };
+};
 
 
 export const getDriverByCollectionId = async (id) => {
@@ -53,7 +67,7 @@ export const updateDriverByCollectionId = async (id, updatedData) => {
 
 
 export const updateProductByProductId = async (id, updatedData) => {
-    const collection = await collectionModel.findOne({ "products._id": id });
+    const collection = await collectionModel.findOne({"products._id": id});
 
     if (!collection) {
         return null;
@@ -77,14 +91,9 @@ export const createCollection = async (data) => {
 
 
 export const addProductToCollection = async (id, product) => {
-    return collectionModel.findByIdAndUpdate(
-        id,
-        { $push: { products: product } },
-        {
-            new: true,
-            runValidators: true,
-        }
-    );
+    return collectionModel.findByIdAndUpdate(id, {$push: {products: product}}, {
+        new: true, runValidators: true,
+    });
 };
 
 
@@ -94,9 +103,5 @@ export const deleteCollectionById = async (id) => {
 
 
 export const deleteProductByProductId = async (id) => {
-    return collectionModel.findOneAndUpdate(
-        { "products._id": id },
-        { $pull: { products: { _id: id } } },
-        { new: true }
-    );
+    return collectionModel.findOneAndUpdate({"products._id": id}, {$pull: {products: {_id: id}}}, {new: true});
 };

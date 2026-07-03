@@ -83,5 +83,11 @@ export const updateMe = async (userData: UpdateUserType) => {
     const res = await apiClient.put<AuthResponse>('/api/auth/me', formData);
 
     return res.data.data.user;
+}
 
+
+export const deleteMe = async () => {
+    const res = await apiClient.delete<AuthResponse>("/api/auth/me");
+
+    return res.data;
 }
