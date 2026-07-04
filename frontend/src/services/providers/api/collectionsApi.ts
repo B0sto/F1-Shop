@@ -17,7 +17,7 @@ export const getCollections = async ({
     minPrice,
     maxPrice,
 }: CollectionParams) => {
-    const res = await apiClient.get("/api/collections", {
+    const res = await apiClient.get("/collections", {
         params: {
             page,
             limit,

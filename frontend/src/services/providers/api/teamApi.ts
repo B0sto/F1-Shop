@@ -4,7 +4,7 @@ import type { Team } from "@/types/TeamType";
 
 export const getTeams = async (): Promise<ApiResponse<Team[]>> => {
     try {
-        const res = await apiClient.get<ApiResponse<Team[]>>("/api/teams");
+        const res = await apiClient.get<ApiResponse<Team[]>>("/teams");
         
         return res.data;
     } catch (error) {
