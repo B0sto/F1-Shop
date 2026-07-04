@@ -15,7 +15,7 @@ const app = express();
 await connectToDB();
 
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL, "http://localhost:5173", "http://192.168.0.5:5173"],
     credentials: true
 }));
 
@@ -40,6 +40,6 @@ app.get("/", (req, res) => {
 
 
 
-app.listen(3000, () => {
-    console.log("server has started on http://localhost:3000");
-})
+app.listen(3000, "0.0.0.0", () => {
+    console.log("Server started");
+});
