@@ -23,7 +23,7 @@ export type UpdateCartItemPayload = {
   selected?: boolean;
 };
 
-const CART_URL = "/api/cart";
+const CART_URL = "/cart";
 
 export const getMyCart = async (): Promise<Cart> => {
   const res = await apiClient.get<ApiResponse<Cart>>(CART_URL);
