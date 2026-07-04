@@ -2,7 +2,7 @@ import axios from "axios";
 import { authToken } from "./authToken";
 
 export const apiClient = axios.create({
-    baseURL: import.meta.env.DEV ? import.meta.env.VITE_API : "/api",
+    baseURL: import.meta.env.DEV ? `${import.meta.env.VITE_API}/api` : "/api",
     withCredentials: true
 })
 
