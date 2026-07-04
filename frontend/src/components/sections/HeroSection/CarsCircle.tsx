@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import F1Logo from "../../icons/F1Logo"
 import { teamsQuery } from "@/services/providers/queries/homeQueries"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 export type TeamInfo = {
     title: string
@@ -14,7 +15,6 @@ type CarsCircleProps = {
     onTeamSelect: (teamInfo: TeamInfo | null) => void
 }
 
-const targetCarAngle = 180
 
 const getShortestRotation = (from: number, to: number) => {
     const difference = ((to - from + 540) % 360) - 180
@@ -26,9 +26,26 @@ const CarsCircle = ({ onTeamSelect }: CarsCircleProps) => {
     const [ringRotation, setRingRotation] = useState(0)
     const [selectedCarIndex, setSelectedCarIndex] = useState<number | null>(null)
     const { data: response } = useQuery(teamsQuery)
+    const isMobile = useIsMobile();
+    const targetCarAngle = isMobile ? 270 : 180;
+
+
 
     const cars = response?.data ?? []
     const carStep = cars.length > 0 ? 360 / cars.length : 0
+
+    useEffect(() => {
+        if (selectedCarIndex === null || cars.length === 0) return
+
+        const carStep = 360 / cars.length
+        const angle = selectedCarIndex * carStep - 90
+
+        const nextRotation = targetCarAngle - angle
+
+        setRingRotation((current) =>
+            getShortestRotation(current, nextRotation)
+        )
+    }, [isMobile, targetCarAngle, selectedCarIndex, cars.length])
 
     const handleCarClick = (index: number) => {
         const carAngle = index * carStep - 90
