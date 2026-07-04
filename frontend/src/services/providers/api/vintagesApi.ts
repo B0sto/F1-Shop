@@ -4,7 +4,7 @@ import type { VintageCardType } from "@/types/VintageCardType";
 
 export const getVintages = async (): Promise<ApiResponse<VintageCardType[]>> => {
     try {
-        const res = await apiClient.get<ApiResponse<VintageCardType[]>>("/api/vintages");
+        const res = await apiClient.get<ApiResponse<VintageCardType[]>>("/vintages");
         
         return res.data;
     } catch (error) {

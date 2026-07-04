@@ -22,7 +22,7 @@ type AuthResponse = {
 
 
 export const login = async (payload: { email: string; password: string }) => {
-    const res = await apiClient.post<AuthResponse>("/api/auth/login", payload)
+    const res = await apiClient.post<AuthResponse>("/auth/login", payload)
 
     authToken.set(res.data.data.accessToken);
 
@@ -30,7 +30,7 @@ export const login = async (payload: { email: string; password: string }) => {
 }
 
 export const logout = async () => {
-    await apiClient.post("/api/auth/logout");
+    await apiClient.post("/auth/logout");
     authToken.set(null);
 }
 
@@ -42,7 +42,7 @@ export const register = async (payload: {
     address?: string
     avatar?: string
 }) => {
-    const res = await apiClient.post<AuthResponse>("/api/auth/register", payload);
+    const res = await apiClient.post<AuthResponse>("/auth/register", payload);
 
     authToken.set(res.data.data.accessToken);
 
@@ -52,7 +52,7 @@ export const register = async (payload: {
 
 
 export const refresh = async () => {
-    const res = await apiClient.post<AuthResponse>("/api/auth/refresh");
+    const res = await apiClient.post<AuthResponse>("/auth/refresh");
 
     authToken.set(res.data.data.accessToken);
 
@@ -66,7 +66,7 @@ export const getMe = async () => {
         data: {
             user: AuthUser
         }
-    }>('/api/auth/me')
+    }>('/auth/me')
 
     return res.data.data.user
 }
@@ -80,14 +80,14 @@ export const updateMe = async (userData: UpdateUserType) => {
     if (userData.address) formData.append("address", userData.address);
     if (userData.avatar) formData.append("avatar", userData.avatar);
 
-    const res = await apiClient.put<AuthResponse>('/api/auth/me', formData);
+    const res = await apiClient.put<AuthResponse>('/auth/me', formData);
 
     return res.data.data.user;
 }
 
 
 export const deleteMe = async () => {
-    const res = await apiClient.delete<AuthResponse>("/api/auth/me");
+    const res = await apiClient.delete<AuthResponse>("/auth/me");
 
     return res.data;
 }
