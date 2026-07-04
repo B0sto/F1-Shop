@@ -23,7 +23,7 @@ export type CheckoutResult = {
   cart: Cart;
 };
 
-const ORDERS_URL = "/api/orders";
+const ORDERS_URL = "/orders";
 
 export const checkout = async (payload: CheckoutType): Promise<CheckoutResult> => {
   const res = await apiClient.post<ApiResponse<CheckoutResult>>(`${ORDERS_URL}/checkout`, payload);
